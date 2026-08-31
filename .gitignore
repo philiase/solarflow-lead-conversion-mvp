@@ -1,0 +1,28 @@
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+build/
+.cache/
+.tmp/
+tmp/
+
+# Local n8n export scratch files. Curated workflow exports live in workflows/.
+n8n-workflows-*.json
+n8n-workflows-export*.json
+n8n-workflows-after-*.json
+
+# Local maintenance scripts are copied under scripts/maintenance/.
+/patch_n8n_*.js
+
+# Curated route fixtures live in tests/.
+/route-validation-fixtures.json
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

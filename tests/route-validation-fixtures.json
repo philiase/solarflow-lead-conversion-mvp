@@ -1,0 +1,57 @@
+{
+  "workflow": "Solar Lead Conversion MVP",
+  "validated_at": "2026-08-31",
+  "webhook_test_url": "http://localhost:5678/webhook-test/solar-lead-message",
+  "note": "In n8n test mode, click Execute workflow before each request. Use a fresh channel_user_id for clean tests.",
+  "cases": [
+    {
+      "name": "HOT",
+      "payload": {
+        "channel_user_id": "test_hot_001",
+        "customer_message": "Hi, I am Thabo. I own a house in Midrand and spend around R3,200 a month on electricity. I want to reduce my bill and have backup power. I do not have any solar equipment yet. I would like to install within the next month, and I would prefer finance."
+      },
+      "expected": {
+        "status": "BOOKED",
+        "lead_temperature": "HOT",
+        "lead_score": 90
+      }
+    },
+    {
+      "name": "WARM",
+      "payload": {
+        "channel_user_id": "test_warm_001",
+        "customer_message": "Hi, I am Kabelo. I am renting a house in Midrand and spend about R2,500 per month on electricity. I mainly want to reduce my electricity bill. I do not have any solar panels, inverter or battery installed. I am only researching at the moment and I am still deciding about payment."
+      },
+      "expected": {
+        "status": "NURTURE",
+        "lead_temperature": "WARM",
+        "lead_score": 45
+      }
+    },
+    {
+      "name": "COLD",
+      "payload": {
+        "channel_user_id": "test_cold_002",
+        "customer_message": "Hi, I am Sipho. I am renting an apartment in Midrand and spend around R800 a month on electricity. I am just researching solar prices for someday in the future. I do not have any solar equipment, and I am still deciding about payment."
+      },
+      "expected": {
+        "status": "COLD",
+        "lead_temperature": "COLD",
+        "lead_score": 30
+      }
+    },
+    {
+      "name": "HUMAN_REVIEW",
+      "payload": {
+        "channel_user_id": "test_human_005",
+        "customer_message": "Hi, I am Lerato. I own a house in Durban and spend around R4,000 a month on electricity. I want solar and battery backup, I do not have any existing equipment, I would like to install within the next month, and I can pay cash."
+      },
+      "expected": {
+        "status": "HUMAN_REVIEW",
+        "lead_temperature": "HUMAN_REVIEW",
+        "lead_score": 70,
+        "in_service_area": false
+      }
+    }
+  ]
+}
