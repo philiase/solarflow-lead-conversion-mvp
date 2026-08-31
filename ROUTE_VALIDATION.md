@@ -35,3 +35,8 @@ Use `tests/route-validation-fixtures.json` for the payloads and expected high-le
 - Currency-formatted electricity spend has a deterministic numeric fallback before Supabase update.
 - HOT and HUMAN_REVIEW branches prepare salesperson notification payloads before final persistence.
 - HOT and HUMAN_REVIEW branches now send Gmail notifications before final persistence and webhook response.
+- HOT Gmail delivery was confirmed from the inbox after the `test_hot_gmail_003` run.
+
+## Remaining Notification Test
+
+- HUMAN_REVIEW Gmail delivery still needs one validation run.
