@@ -79,7 +79,7 @@ function setNode(name, position, status, urgency, reason) {
   "appointment_time": "{{$json.appointment_time}}",
   "summary": "{{$json.sales_summary || $json.human_review_summary}}"
 }`,
-            type: 'object',
+            type: 'string',
           },
         ],
       },
