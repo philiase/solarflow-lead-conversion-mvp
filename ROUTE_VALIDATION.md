@@ -36,7 +36,9 @@ Use `tests/route-validation-fixtures.json` for the payloads and expected high-le
 - HOT and HUMAN_REVIEW branches prepare salesperson notification payloads before final persistence.
 - HOT and HUMAN_REVIEW branches now send Gmail notifications before final persistence and webhook response.
 - HOT Gmail delivery was confirmed from the inbox after the `test_hot_gmail_003` run.
+- HUMAN_REVIEW Gmail delivery was confirmed after the `test_human_gmail_001` run.
 
-## Remaining Notification Test
+## Notification Status
 
-- HUMAN_REVIEW Gmail delivery still needs one validation run.
+- HOT Gmail delivery validated.
+- HUMAN_REVIEW Gmail delivery validated.

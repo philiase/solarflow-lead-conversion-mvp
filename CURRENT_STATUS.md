@@ -29,6 +29,7 @@
 - HOT and HUMAN_REVIEW branches prepare structured salesperson notification payloads.
 - Gmail notifications are connected for HOT and HUMAN_REVIEW leads.
 - HOT Gmail notification delivery validated.
+- HUMAN_REVIEW Gmail notification delivery validated.
 
 ## Current live architecture
 Incoming Solar Message webhook
@@ -57,4 +58,4 @@ Incoming Solar Message webhook
 - Route validation notes: ROUTE_VALIDATION.md
 
 ## Next milestone
-Validate HUMAN_REVIEW Gmail delivery, then decide whether to keep email as the primary salesperson handoff or add WhatsApp/CRM delivery later.
+Add lightweight failure handling/logging for Gmail, OpenRouter, and Supabase failures, then review whether the workflow is ready for production webhook activation.

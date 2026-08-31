@@ -21,7 +21,7 @@ Use `ROUTE_VALIDATION.md` and `route-validation-fixtures.json` for the passing r
 - `docs/SolarFlow_SA_Project_Source_of_Truth.md` contains the full project source of truth.
 - `scripts/maintenance/` contains repeatable workflow patch scripts used during cleanup.
 
-The current workflow sends Gmail salesperson notifications for HOT and HUMAN_REVIEW leads using the n8n credential named `Gmail account`. HOT email delivery has been validated; HUMAN_REVIEW delivery is the remaining notification test.
+The current workflow sends Gmail salesperson notifications for HOT and HUMAN_REVIEW leads using the n8n credential named `Gmail account`. HOT and HUMAN_REVIEW email delivery have both been validated.
 
 ## Local n8n
 
