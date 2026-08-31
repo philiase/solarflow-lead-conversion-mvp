@@ -33,6 +33,7 @@
 - Gmail sends now retry once, continue on failure, and record `sales_notification_status` / `sales_notification_error` before terminal persistence.
 - OpenRouter and Supabase external nodes now retry once before surfacing a hard workflow failure in n8n.
 - Production workflow is active in n8n for `/webhook/solar-lead-message`.
+- Production webhook smoke test passed for HOT, WARM, COLD, and HUMAN_REVIEW.
 
 ## Current live architecture
 Incoming Solar Message webhook
@@ -61,4 +62,4 @@ Incoming Solar Message webhook
 - Route validation notes: ROUTE_VALIDATION.md
 
 ## Next milestone
-Run one final production webhook smoke test when ready, then connect the next real inbound channel.
+Connect the next real inbound channel.

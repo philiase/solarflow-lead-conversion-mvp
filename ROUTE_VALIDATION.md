@@ -44,3 +44,18 @@ Use `tests/route-validation-fixtures.json` for the payloads and expected high-le
 
 - HOT Gmail delivery validated.
 - HUMAN_REVIEW Gmail delivery validated.
+
+## Production Smoke Test
+
+Validated on 2026-08-31 against:
+
+```powershell
+http://localhost:5678/webhook/solar-lead-message
+```
+
+All four production webhook cases passed after the notification payload type was corrected in the active workflow:
+
+- HOT -> BOOKED, score 90 (`prod2_hot_20260831195409`)
+- WARM -> NURTURE, score 45 (`prod2_warm_20260831195409`)
+- COLD -> COLD, score 30 (`prod2_cold_20260831195409`)
+- HUMAN_REVIEW -> HUMAN_REVIEW, score 70, outside service area (`prod2_human_20260831195409`)

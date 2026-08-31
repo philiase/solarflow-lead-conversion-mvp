@@ -13,6 +13,8 @@ The n8n workflow `Solar Lead Conversion MVP` has been validated through the loca
 
 Use `ROUTE_VALIDATION.md` and `route-validation-fixtures.json` for the passing route tests.
 
+The production webhook has also passed a smoke test for all four terminal routes.
+
 ## Repository Layout
 
 - `workflows/solar-lead-conversion-mvp.cleaned.json` is the current cleaned n8n workflow export.
