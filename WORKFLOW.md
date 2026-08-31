@@ -57,3 +57,12 @@ Each terminal branch persists route results to Supabase before responding:
 - WARM persists NURTURE status, score, and temperature.
 - COLD persists COLD status, score, and temperature.
 - HUMAN_REVIEW persists HUMAN_REVIEW status, score, temperature, and service-area result.
+
+## Salesperson notification payloads
+HOT and HUMAN_REVIEW branches now prepare a structured `sales_notification_payload` before final persistence and webhook response.
+
+Current payload-only nodes:
+- Prepare HOT Sales Notification
+- Prepare HUMAN REVIEW Sales Notification
+
+The sender is intentionally not connected yet. The next implementation decision is the delivery channel: email, CRM/internal webhook, WhatsApp, or another sales inbox.

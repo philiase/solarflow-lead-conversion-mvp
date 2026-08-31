@@ -21,6 +21,8 @@ Use `ROUTE_VALIDATION.md` and `route-validation-fixtures.json` for the passing r
 - `docs/SolarFlow_SA_Project_Source_of_Truth.md` contains the full project source of truth.
 - `scripts/maintenance/` contains repeatable workflow patch scripts used during cleanup.
 
+The current workflow also prepares structured salesperson notification payloads for HOT and HUMAN_REVIEW leads. A real delivery channel is still pending.
+
 ## Local n8n
 
 The local Docker setup exposes n8n at:

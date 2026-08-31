@@ -26,6 +26,7 @@
 - HOT, WARM, COLD, and HUMAN_REVIEW routes validated through webhook + Supabase.
 - Terminal route results are persisted back to Supabase before webhook response.
 - Obsolete mock and experimental nodes removed from the cleaned workflow export.
+- HOT and HUMAN_REVIEW branches prepare structured salesperson notification payloads.
 
 ## Current live architecture
 Incoming Solar Message webhook
@@ -54,4 +55,4 @@ Incoming Solar Message webhook
 - Route validation notes: ROUTE_VALIDATION.md
 
 ## Next milestone
-Add salesperson notification for HOT and HUMAN_REVIEW leads before adding larger channels such as WhatsApp, RAG, or Google Calendar.
+Connect a real salesperson notification channel for HOT and HUMAN_REVIEW leads. The workflow now prepares the payload; the remaining decision is whether to send it by email, internal webhook/CRM, WhatsApp, or another channel.
