@@ -38,3 +38,9 @@ http://localhost:5678/webhook-test/solar-lead-message
 ```
 
 In test mode, click **Execute workflow** in n8n before sending a request.
+
+When the workflow is active, the production webhook is:
+
+```text
+http://localhost:5678/webhook/solar-lead-message
+```

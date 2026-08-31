@@ -46,7 +46,7 @@ Current MVP uses simulated booking.
 Current input is the webhook:
 http://localhost:5678/webhook-test/solar-lead-message in test mode.
 
-Production mode will use:
+Production mode uses:
 http://localhost:5678/webhook/solar-lead-message
 
 Later: WhatsApp Business Platform.
