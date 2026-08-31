@@ -61,6 +61,8 @@ Each terminal branch persists route results to Supabase before responding:
 ## Salesperson notifications
 HOT and HUMAN_REVIEW branches prepare a structured `sales_notification_payload`, send a Gmail notification, restore the lead context, then persist final state and respond to the webhook.
 
+Gmail sends are non-blocking: if Gmail fails after retry, the restore node sets `sales_notification_status` to `FAILED`, records `sales_notification_error`, and continues to terminal persistence and the webhook response. If Gmail succeeds, the restore node sets `sales_notification_status` to `SENT`.
+
 Current notification nodes:
 - Prepare HOT Sales Notification
 - Prepare HUMAN REVIEW Sales Notification
@@ -73,3 +75,12 @@ Current recipient:
 lebusotsilo6@gmail.com
 
 The Gmail nodes use the n8n credential named `Gmail account`. Attribution is disabled in the Gmail node options.
+
+## Lightweight failure handling
+
+External nodes use one retry before failing:
+- OpenRouter chat model
+- Supabase lookup/create/update nodes
+- Gmail send nodes
+
+OpenRouter and Supabase remain hard failures after retry because they are required for extraction and persistent memory. Their failures are captured in the n8n execution log. Gmail is allowed to continue after failure because notification delivery should not block final lead persistence or the customer response.

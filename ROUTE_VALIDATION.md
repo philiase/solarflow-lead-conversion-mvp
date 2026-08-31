@@ -37,6 +37,8 @@ Use `tests/route-validation-fixtures.json` for the payloads and expected high-le
 - HOT and HUMAN_REVIEW branches now send Gmail notifications before final persistence and webhook response.
 - HOT Gmail delivery was confirmed from the inbox after the `test_hot_gmail_003` run.
 - HUMAN_REVIEW Gmail delivery was confirmed after the `test_human_gmail_001` run.
+- Gmail send nodes now retry once, continue on failure, and restore the original lead context with `sales_notification_status` set to `SENT` or `FAILED`.
+- Supabase and OpenRouter external nodes now retry once before surfacing an n8n execution failure.
 
 ## Notification Status
 

@@ -30,6 +30,8 @@
 - Gmail notifications are connected for HOT and HUMAN_REVIEW leads.
 - HOT Gmail notification delivery validated.
 - HUMAN_REVIEW Gmail notification delivery validated.
+- Gmail sends now retry once, continue on failure, and record `sales_notification_status` / `sales_notification_error` before terminal persistence.
+- OpenRouter and Supabase external nodes now retry once before surfacing a hard workflow failure in n8n.
 
 ## Current live architecture
 Incoming Solar Message webhook
@@ -58,4 +60,4 @@ Incoming Solar Message webhook
 - Route validation notes: ROUTE_VALIDATION.md
 
 ## Next milestone
-Add lightweight failure handling/logging for Gmail, OpenRouter, and Supabase failures, then review whether the workflow is ready for production webhook activation.
+Import and review the failure-handling workflow in n8n, then decide whether to activate the production webhook.

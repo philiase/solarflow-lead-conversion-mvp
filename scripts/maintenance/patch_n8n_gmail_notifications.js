@@ -20,6 +20,7 @@ const gmailCredentials = {
 };
 
 const removeNames = new Set([
+  'Send a message',
   'Send HOT Gmail Notification',
   'Restore HOT Lead Context',
   'Send HUMAN REVIEW Gmail Notification',
@@ -63,6 +64,10 @@ function gmailNode(name, position, subject, message) {
     position,
     id: crypto.randomUUID(),
     name,
+    retryOnFail: true,
+    maxTries: 2,
+    waitBetweenTries: 5000,
+    continueOnFail: true,
     credentials: gmailCredentials,
   };
 }
@@ -73,12 +78,27 @@ function restoreNode(name, sourceNodeName, position, resultFieldName) {
       jsCode: `const lead = $('${sourceNodeName}').item.json;
 const gmailResult = $json;
 
+function getErrorMessage(result) {
+  if (!result || !result.error) {
+    return null;
+  }
+
+  if (typeof result.error === 'string') {
+    return result.error;
+  }
+
+  return result.error.message || result.error.description || JSON.stringify(result.error);
+}
+
+const errorMessage = getErrorMessage(gmailResult);
+
 return [
   {
     json: {
       ...lead,
       ${resultFieldName}: gmailResult,
-      sales_notification_status: 'SENT'
+      sales_notification_status: errorMessage ? 'FAILED' : 'SENT',
+      sales_notification_error: errorMessage
     }
   }
 ];`,
