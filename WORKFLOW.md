@@ -58,11 +58,18 @@ Each terminal branch persists route results to Supabase before responding:
 - COLD persists COLD status, score, and temperature.
 - HUMAN_REVIEW persists HUMAN_REVIEW status, score, temperature, and service-area result.
 
-## Salesperson notification payloads
-HOT and HUMAN_REVIEW branches now prepare a structured `sales_notification_payload` before final persistence and webhook response.
+## Salesperson notifications
+HOT and HUMAN_REVIEW branches prepare a structured `sales_notification_payload`, send a Gmail notification, restore the lead context, then persist final state and respond to the webhook.
 
-Current payload-only nodes:
+Current notification nodes:
 - Prepare HOT Sales Notification
 - Prepare HUMAN REVIEW Sales Notification
+- Send HOT Gmail Notification
+- Restore HOT Lead Context
+- Send HUMAN REVIEW Gmail Notification
+- Restore HUMAN REVIEW Lead Context
 
-The sender is intentionally not connected yet. The next implementation decision is the delivery channel: email, CRM/internal webhook, WhatsApp, or another sales inbox.
+Current recipient:
+lebusotsilo6@gmail.com
+
+The Gmail nodes use the n8n credential named `Gmail account`. Attribution is disabled in the Gmail node options.
