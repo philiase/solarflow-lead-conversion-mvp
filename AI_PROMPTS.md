@@ -14,7 +14,7 @@ Existing lead record:
 {{$json}}
 
 Latest customer message:
-{{ $('Mock Customer Message').item.json.customer_message }}
+{{ $('Incoming Solar Message').item.json.body.customer_message }}
 
 Return ONLY valid JSON with these fields:
 name

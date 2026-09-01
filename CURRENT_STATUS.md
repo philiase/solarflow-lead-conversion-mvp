@@ -58,10 +58,10 @@ Incoming Solar Message webhook or local website form
             → Respond to webhook
 
 ## Current validated baseline
-- Workflow export: n8n-workflows-validated-baseline.json
-- Cleaned workflow export: n8n-workflows-cleaned.json
-- Route fixtures: route-validation-fixtures.json
-- Route validation notes: ROUTE_VALIDATION.md
+- Workflow export: `workflows/solar-lead-conversion-mvp.cleaned.json`
+- Validated baseline export: `workflows/solar-lead-conversion-mvp.validated-baseline.json`
+- Route fixtures: `tests/route-validation-fixtures.json`
+- Route validation notes: `ROUTE_VALIDATION.md`
 
 ## Next milestone
 Choose whether to polish the website form for public hosting or connect WhatsApp Business next.

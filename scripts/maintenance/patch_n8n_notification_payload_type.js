@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const inputPath = process.argv[2] || 'n8n-workflows-after-gmail-notifications.json';
-const outputPath = process.argv[3] || 'n8n-workflows-after-gmail-notifications-payload-fix.json';
+const inputPath = process.argv[2] || 'workflows/solar-lead-conversion-mvp.cleaned.json';
+const outputPath = process.argv[3] || inputPath;
 
 const workflows = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
 const workflow = workflows.find((item) => item.name === 'Solar Lead Conversion MVP');

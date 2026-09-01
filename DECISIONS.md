@@ -12,7 +12,6 @@
 - Webhook/WhatsApp = transport.
 - Google Calendar = later booking integration.
 
-- Codex = implementation engineer.
 - First run prioritises free/low-cost tools.
 - Google Calendar postponed.
 - Booking currently simulated.

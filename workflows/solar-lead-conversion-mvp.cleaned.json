@@ -252,7 +252,7 @@
           -1920
         ],
         "id": "e0c4fb7c-4fcd-4aa7-9014-6161228ad8da",
-        "name": "Edit Fields",
+        "name": "Set HOT Final Status",
         "alwaysOutputData": false
       },
       {
@@ -287,7 +287,7 @@
           -1216
         ],
         "id": "642f2e98-9af6-42eb-8d53-e3e86af95608",
-        "name": "IS WARM"
+        "name": "Is Lead WARM?"
       },
       {
         "parameters": {
@@ -353,7 +353,7 @@
           -1616
         ],
         "id": "4f136b96-5a42-4f59-8018-61c9984f51da",
-        "name": "Sales_summary"
+        "name": "Create WARM Sales Summary"
       },
       {
         "parameters": {
@@ -368,7 +368,7 @@
               {
                 "id": "464340b5-2426-41fd-844a-3ce81343f32b",
                 "name": "lead_temperature",
-                "value": "={{ $('IS WARM').item.json.lead_temperature }}",
+                "value": "={{ $('Is Lead WARM?').item.json.lead_temperature }}",
                 "type": "string"
               },
               {
@@ -380,7 +380,7 @@
               {
                 "id": "027e42e1-f7f2-4461-9abb-c157bee538bf",
                 "name": "lead_score",
-                "value": "={{ $('IS WARM').item.json.lead_score }}",
+                "value": "={{ $('Is Lead WARM?').item.json.lead_score }}",
                 "type": "number"
               }
             ]
@@ -395,7 +395,7 @@
           -1616
         ],
         "id": "95f107cd-fc1c-483d-8d33-50c8c41bf81a",
-        "name": "Edit Fields1"
+        "name": "Set WARM Final Status"
       },
       {
         "parameters": {
@@ -489,7 +489,7 @@
           -1120
         ],
         "id": "4e83ae87-20a4-4a68-a4ea-c5637e17ed78",
-        "name": "If"
+        "name": "Is Human Review?"
       },
       {
         "parameters": {
@@ -726,7 +726,7 @@
           -944
         ],
         "id": "f8841666-1b0b-4c69-b44c-4c5c6a2c29d9",
-        "name": "do we have a lead"
+        "name": "Lead Exists?"
       },
       {
         "parameters": {
@@ -739,7 +739,7 @@
           -944
         ],
         "id": "79c6bc1b-2fcf-403a-82fe-d4292598aed8",
-        "name": "Merge Supabase + AI update"
+        "name": "Merge Lead Memory and Extraction"
       },
       {
         "parameters": {
@@ -879,7 +879,7 @@
           -1920
         ],
         "id": "e4a34e07-9e3a-403f-a018-6bf073058b15",
-        "name": "Respond to Webhook"
+        "name": "Respond BOOKED"
       },
       {
         "parameters": {
@@ -895,7 +895,7 @@
           -1616
         ],
         "id": "2852712d-def3-4788-bcaf-c4b3891d5d13",
-        "name": "Respond to Webhook1"
+        "name": "Respond NURTURE"
       },
       {
         "parameters": {
@@ -911,7 +911,7 @@
           -1024
         ],
         "id": "630d74a4-1638-4009-bd2c-06054f5f91d4",
-        "name": "Respond to Webhook2"
+        "name": "Respond COLD"
       },
       {
         "parameters": {
@@ -927,7 +927,7 @@
           -1392
         ],
         "id": "1909b68c-b4fb-4029-b041-862740216ba4",
-        "name": "Respond to Webhook3"
+        "name": "Respond HUMAN REVIEW"
       },
       {
         "parameters": {
@@ -1527,7 +1527,7 @@
           ],
           [
             {
-              "node": "IS WARM",
+              "node": "Is Lead WARM?",
               "type": "main",
               "index": 0
             }
@@ -1538,14 +1538,14 @@
         "main": [
           [
             {
-              "node": "Edit Fields",
+              "node": "Set HOT Final Status",
               "type": "main",
               "index": 0
             }
           ]
         ]
       },
-      "IS WARM": {
+      "Is Lead WARM?": {
         "main": [
           [
             {
@@ -1556,7 +1556,7 @@
           ],
           [
             {
-              "node": "If",
+              "node": "Is Human Review?",
               "type": "main",
               "index": 0
             }
@@ -1567,18 +1567,18 @@
         "main": [
           [
             {
-              "node": "Sales_summary",
+              "node": "Create WARM Sales Summary",
               "type": "main",
               "index": 0
             }
           ]
         ]
       },
-      "Sales_summary": {
+      "Create WARM Sales Summary": {
         "main": [
           [
             {
-              "node": "Edit Fields1",
+              "node": "Set WARM Final Status",
               "type": "main",
               "index": 0
             }
@@ -1596,7 +1596,7 @@
           ]
         ]
       },
-      "If": {
+      "Is Human Review?": {
         "main": [
           [
             {
@@ -1680,7 +1680,7 @@
         "main": [
           [
             {
-              "node": "do we have a lead",
+              "node": "Lead Exists?",
               "type": "main",
               "index": 0
             }
@@ -1698,7 +1698,7 @@
           ]
         ]
       },
-      "do we have a lead": {
+      "Lead Exists?": {
         "main": [
           [
             {
@@ -1716,7 +1716,7 @@
           ]
         ]
       },
-      "Merge Supabase + AI update": {
+      "Merge Lead Memory and Extraction": {
         "main": [
           [
             {
@@ -1749,7 +1749,7 @@
           ]
         ]
       },
-      "Edit Fields": {
+      "Set HOT Final Status": {
         "main": [
           [
             {
@@ -1760,7 +1760,7 @@
           ]
         ]
       },
-      "Edit Fields1": {
+      "Set WARM Final Status": {
         "main": [
           [
             {
@@ -1797,7 +1797,7 @@
         "main": [
           [
             {
-              "node": "Merge Supabase + AI update",
+              "node": "Merge Lead Memory and Extraction",
               "type": "main",
               "index": 0
             }
@@ -1841,7 +1841,7 @@
         "main": [
           [
             {
-              "node": "Respond to Webhook",
+              "node": "Respond BOOKED",
               "type": "main",
               "index": 0
             }
@@ -1852,7 +1852,7 @@
         "main": [
           [
             {
-              "node": "Respond to Webhook1",
+              "node": "Respond NURTURE",
               "type": "main",
               "index": 0
             }
@@ -1863,7 +1863,7 @@
         "main": [
           [
             {
-              "node": "Respond to Webhook2",
+              "node": "Respond COLD",
               "type": "main",
               "index": 0
             }
@@ -1874,7 +1874,7 @@
         "main": [
           [
             {
-              "node": "Respond to Webhook3",
+              "node": "Respond HUMAN REVIEW",
               "type": "main",
               "index": 0
             }
