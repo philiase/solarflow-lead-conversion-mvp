@@ -42,6 +42,39 @@ function setResult(text, tone) {
   result.dataset.tone = tone;
 }
 
+async function reportClientError(details) {
+  try {
+    await fetch('/api/client-error', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...details,
+        userAgent: navigator.userAgent,
+        pageUrl: window.location.href,
+      }),
+    });
+  } catch {
+    // The visible form error is more useful than a second reporting failure.
+  }
+}
+
+async function readJsonResponse(response) {
+  const text = await response.text();
+
+  try {
+    return JSON.parse(text || '{}');
+  } catch (error) {
+    await reportClientError({
+      type: 'invalid_api_json',
+      status: response.status,
+      responseText: text.slice(0, 2000),
+      errorMessage: error.message,
+    });
+
+    throw new Error('The form received an invalid server response. The error has been logged.');
+  }
+}
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -66,10 +99,17 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(payload),
     });
 
-    const body = await response.json();
+    const body = await readJsonResponse(response);
 
     if (!response.ok || !body.ok) {
-      throw new Error(body.message || body.workflow?.message || 'Lead submission failed.');
+      const message = body.message || body.workflow?.message || 'Lead submission failed.';
+      await reportClientError({
+        type: 'lead_api_rejected',
+        status: response.status,
+        message,
+        body,
+      });
+      throw new Error(message);
     }
 
     const workflow = body.workflow;
@@ -85,6 +125,10 @@ form.addEventListener('submit', async (event) => {
       'success',
     );
   } catch (error) {
+    await reportClientError({
+      type: 'form_submit_error',
+      errorMessage: error.message,
+    });
     setResult(error.message, 'error');
   } finally {
     submitButton.disabled = false;

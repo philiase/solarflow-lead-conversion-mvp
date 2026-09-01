@@ -9,6 +9,8 @@ const WEBHOOK_URL =
 const ACCESS_CODE = process.env.SOLARFLOW_FORM_ACCESS_CODE || '';
 
 const publicDir = path.join(__dirname, 'public');
+const logsDir = path.join(__dirname, 'logs');
+const eventsLogPath = path.join(logsDir, 'events.jsonl');
 
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -23,6 +25,36 @@ const contentTypes = {
 function sendJson(res, statusCode, body) {
   res.writeHead(statusCode, { 'Content-Type': 'application/json; charset=utf-8' });
   res.end(JSON.stringify(body));
+}
+
+function logEvent(type, details = {}) {
+  const event = {
+    timestamp: new Date().toISOString(),
+    type,
+    ...details,
+  };
+
+  fs.mkdirSync(logsDir, { recursive: true });
+  fs.appendFileSync(eventsLogPath, `${JSON.stringify(event)}\n`);
+}
+
+function redactPayload(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return payload;
+  }
+
+  return {
+    ...payload,
+    access_code: payload.access_code ? '[REDACTED]' : payload.access_code,
+  };
+}
+
+function serializeError(error) {
+  return {
+    name: error.name,
+    message: error.message,
+    stack: error.stack,
+  };
 }
 
 function readRequestBody(req) {
@@ -44,11 +76,30 @@ function readRequestBody(req) {
 }
 
 async function handleLead(req, res) {
+  let rawBody = '';
+  let payload = null;
+
   try {
-    const rawBody = await readRequestBody(req);
-    const payload = JSON.parse(rawBody || '{}');
+    rawBody = await readRequestBody(req);
+
+    try {
+      payload = JSON.parse(rawBody || '{}');
+    } catch (error) {
+      logEvent('invalid_request_json', {
+        error: serializeError(error),
+        rawBody,
+      });
+      sendJson(res, 400, {
+        ok: false,
+        message: 'The form sent invalid JSON. The error has been logged.',
+      });
+      return;
+    }
 
     if (!payload.channel_user_id || !payload.customer_message) {
+      logEvent('invalid_lead_payload', {
+        payload: redactPayload(payload),
+      });
       sendJson(res, 400, {
         ok: false,
         message: 'channel_user_id and customer_message are required.',
@@ -57,6 +108,10 @@ async function handleLead(req, res) {
     }
 
     if (ACCESS_CODE && payload.access_code !== ACCESS_CODE) {
+      logEvent('invalid_access_code', {
+        channel_user_id: payload.channel_user_id,
+        payload: redactPayload(payload),
+      });
       sendJson(res, 401, {
         ok: false,
         message: 'Invalid access code.',
@@ -78,24 +133,69 @@ async function handleLead(req, res) {
 
     try {
       responseBody = JSON.parse(responseText);
-    } catch {
+    } catch (error) {
+      logEvent('invalid_webhook_json', {
+        channel_user_id: payload.channel_user_id,
+        statusCode: webhookResponse.status,
+        error: serializeError(error),
+        responseText,
+      });
       responseBody = { raw: responseText };
     }
+
+    logEvent(webhookResponse.ok ? 'lead_forwarded' : 'webhook_error', {
+      channel_user_id: payload.channel_user_id,
+      statusCode: webhookResponse.status,
+      request: redactPayload(payload),
+      response: responseBody,
+    });
 
     sendJson(res, webhookResponse.ok ? 200 : webhookResponse.status, {
       ok: webhookResponse.ok,
       workflow: responseBody,
     });
   } catch (error) {
+    logEvent('lead_api_error', {
+      error: serializeError(error),
+      rawBody,
+      payload: redactPayload(payload),
+    });
     sendJson(res, 500, {
       ok: false,
-      message: error.message,
+      message: 'Lead submission failed. The error has been logged.',
     });
   }
 }
 
+async function handleClientError(req, res) {
+  try {
+    const rawBody = await readRequestBody(req);
+    let payload;
+
+    try {
+      payload = JSON.parse(rawBody || '{}');
+    } catch (error) {
+      payload = {
+        parse_error: serializeError(error),
+        rawBody,
+      };
+    }
+
+    logEvent('client_error', {
+      payload: redactPayload(payload),
+    });
+    sendJson(res, 200, { ok: true });
+  } catch (error) {
+    logEvent('client_error_logging_failed', {
+      error: serializeError(error),
+    });
+    sendJson(res, 500, { ok: false });
+  }
+}
+
 function serveStatic(req, res) {
-  const requestedPath = req.url === '/' ? '/index.html' : req.url;
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const requestedPath = url.pathname === '/' ? '/index.html' : url.pathname;
   const filePath = path.normalize(path.join(publicDir, requestedPath));
 
   if (!filePath.startsWith(publicDir)) {
@@ -121,8 +221,15 @@ function serveStatic(req, res) {
 }
 
 const server = http.createServer((req, res) => {
-  if (req.method === 'POST' && req.url === '/api/lead') {
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+
+  if (req.method === 'POST' && url.pathname === '/api/lead') {
     handleLead(req, res);
+    return;
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/client-error') {
+    handleClientError(req, res);
     return;
   }
 
