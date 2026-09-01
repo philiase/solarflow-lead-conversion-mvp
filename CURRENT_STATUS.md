@@ -34,9 +34,11 @@
 - OpenRouter and Supabase external nodes now retry once before surfacing a hard workflow failure in n8n.
 - Production workflow is active in n8n for `/webhook/solar-lead-message`.
 - Production webhook smoke test passed for HOT, WARM, COLD, and HUMAN_REVIEW.
+- Local website-form inbound added at `http://localhost:8080`.
+- Website-form proxy smoke test passed through production n8n with a COLD lead response.
 
 ## Current live architecture
-Incoming Solar Message webhook
+Incoming Solar Message webhook or local website form
 → Find Existing Lead
 → Lead Exists?
 → Create New Lead or use existing row
@@ -62,4 +64,4 @@ Incoming Solar Message webhook
 - Route validation notes: ROUTE_VALIDATION.md
 
 ## Next milestone
-Connect the next real inbound channel.
+Choose whether to polish the website form for public hosting or connect WhatsApp Business next.

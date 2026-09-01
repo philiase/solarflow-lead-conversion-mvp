@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SolarFlow SA Lead Form</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="brand-panel" aria-label="SolarFlow SA">
+        <img
+          src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80"
+          alt="Solar panels on a residential roof"
+        >
+        <div class="brand-copy">
+          <p>SolarFlow SA</p>
+          <h1>Residential Solar Lead Intake</h1>
+        </div>
+      </section>
+
+      <section class="form-panel" aria-label="Lead details">
+        <form id="leadForm" novalidate>
+          <div class="form-grid">
+            <label>
+              Name
+              <input name="name" autocomplete="name" required placeholder="Thabo">
+            </label>
+
+            <label>
+              Phone or email
+              <input name="contact" autocomplete="email" required placeholder="customer@example.com">
+            </label>
+
+            <label>
+              Location
+              <input name="location" required placeholder="Midrand">
+            </label>
+
+            <label>
+              Property
+              <select name="property_type" required>
+                <option value="">Select</option>
+                <option>House</option>
+                <option>Townhouse</option>
+                <option>Apartment</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              Ownership
+              <select name="ownership_status" required>
+                <option value="">Select</option>
+                <option>Owner</option>
+                <option>Renter</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              Monthly spend
+              <input name="monthly_electricity_spend" inputmode="numeric" required placeholder="3200">
+            </label>
+
+            <label>
+              Main goal
+              <select name="primary_goal" required>
+                <option value="">Select</option>
+                <option>Bill reduction</option>
+                <option>Backup power</option>
+                <option>Bill reduction + backup</option>
+                <option>Price research</option>
+              </select>
+            </label>
+
+            <label>
+              Existing equipment
+              <select name="existing_equipment" required>
+                <option value="">Select</option>
+                <option>None</option>
+                <option>Solar panels</option>
+                <option>Inverter</option>
+                <option>Battery</option>
+                <option>Panels, inverter, and battery</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              Timeline
+              <select name="timeline" required>
+                <option value="">Select</option>
+                <option>ASAP</option>
+                <option>0-30 days</option>
+                <option>1-3 months</option>
+                <option>3+ months</option>
+                <option>Researching</option>
+              </select>
+            </label>
+
+            <label>
+              Payment
+              <select name="payment_preference" required>
+                <option value="">Select</option>
+                <option>Cash</option>
+                <option>Finance</option>
+                <option>Either</option>
+                <option>Unknown</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Notes
+            <textarea name="notes" rows="3" placeholder="Anything else the customer mentioned"></textarea>
+          </label>
+
+          <button type="submit" id="submitButton">Send lead</button>
+        </form>
+
+        <output id="result" aria-live="polite"></output>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

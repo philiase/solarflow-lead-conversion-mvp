@@ -49,6 +49,13 @@ http://localhost:5678/webhook-test/solar-lead-message in test mode.
 Production mode uses:
 http://localhost:5678/webhook/solar-lead-message
 
+The local website-form inbound is:
+http://localhost:8080
+
+It forwards submissions to the production webhook as:
+- `channel_user_id`
+- `customer_message`
+
 Later: WhatsApp Business Platform.
 
 ## Terminal persistence
