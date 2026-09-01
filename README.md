@@ -63,3 +63,5 @@ http://localhost:8080
 ```
 
 The form forwards submissions to the production webhook and uses `website_<contact>` as the lead `channel_user_id`.
+
+Set `SOLARFLOW_FORM_ACCESS_CODE` before temporarily sharing the local form through a tunnel.

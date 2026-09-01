@@ -53,6 +53,7 @@ form.addEventListener('submit', async (event) => {
   const payload = {
     channel_user_id: stableChannelId(data.contact),
     customer_message: buildCustomerMessage(data),
+    access_code: data.access_code,
   };
 
   submitButton.disabled = true;

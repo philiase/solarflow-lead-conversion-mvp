@@ -6,6 +6,7 @@ const PORT = Number(process.env.PORT || 8080);
 const WEBHOOK_URL =
   process.env.SOLARFLOW_WEBHOOK_URL ||
   'http://localhost:5678/webhook/solar-lead-message';
+const ACCESS_CODE = process.env.SOLARFLOW_FORM_ACCESS_CODE || '';
 
 const publicDir = path.join(__dirname, 'public');
 
@@ -51,6 +52,14 @@ async function handleLead(req, res) {
       sendJson(res, 400, {
         ok: false,
         message: 'channel_user_id and customer_message are required.',
+      });
+      return;
+    }
+
+    if (ACCESS_CODE && payload.access_code !== ACCESS_CODE) {
+      sendJson(res, 401, {
+        ok: false,
+        message: 'Invalid access code.',
       });
       return;
     }
@@ -129,4 +138,9 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`SolarFlow website form running at http://localhost:${PORT}`);
   console.log(`Forwarding leads to ${WEBHOOK_URL}`);
+  console.log(
+    ACCESS_CODE
+      ? 'Access code protection is enabled.'
+      : 'Access code protection is disabled.',
+  );
 });
