@@ -2,9 +2,9 @@
 
 Validated on 2026-08-31 against the local n8n Docker workflow `Solar Lead Conversion MVP`.
 
-## Result
+## Historical Result
 
-All four terminal routes passed through the real webhook and Supabase architecture:
+Before the post-qualification control layer was added, all four terminal routes passed through the real webhook and Supabase architecture:
 
 - HOT -> BOOKED, score 90
 - WARM -> NURTURE, score 45
@@ -45,7 +45,7 @@ Use `tests/route-validation-fixtures.json` for the payloads and expected high-le
 - HOT Gmail delivery validated.
 - HUMAN_REVIEW Gmail delivery validated.
 
-## Production Smoke Test
+## Historical Production Smoke Test
 
 Validated on 2026-08-31 against:
 
@@ -53,9 +53,23 @@ Validated on 2026-08-31 against:
 http://localhost:5678/webhook/solar-lead-message
 ```
 
-All four production webhook cases passed after the notification payload type was corrected in the active workflow:
+All four production webhook cases passed after the notification payload type was corrected in the active workflow. These results were captured before HUMAN_REVIEW was changed to transition into HUMAN_TAKEOVER:
 
 - HOT -> BOOKED, score 90 (`prod2_hot_20260831195409`)
 - WARM -> NURTURE, score 45 (`prod2_warm_20260831195409`)
 - COLD -> COLD, score 30 (`prod2_cold_20260831195409`)
 - HUMAN_REVIEW -> HUMAN_REVIEW, score 70, outside service area (`prod2_human_20260831195409`)
+
+## Pending Control-Layer Validation
+
+The post-qualification control layer was added after the production smoke test above.
+
+Validated on 2026-09-03:
+- HOT fresh lead returned `BOOKED`, `HOT`, score 90 (`test_control_hot_20260903014208`).
+- WARM fresh lead returned `NURTURE`, `WARM`, score 50 (`test_control_warm_low_20260903014244`).
+- HUMAN_REVIEW fresh lead returned `HUMAN_TAKEOVER`, `HUMAN_REVIEW`, score 70, `human_takeover=true` (`test_control_human_20260903014208`).
+- Existing WARM lead with stop language returned `AUTOMATION_STOPPED` with `customer_stop_intent` and `consent_opted_out`.
+- Existing BOOKED lead returned `AUTOMATION_STOPPED` with `lead_status_booked`.
+- WARM nurture scheduler JSON validated and its gate/update code passed an isolated local simulation: due lead continued, opt-out/future/max-attempt leads were blocked, and the due lead advanced to follow-up attempt 1.
+
+The scheduler remains inactive until manual live execution is intentionally approved against a known safe due lead.

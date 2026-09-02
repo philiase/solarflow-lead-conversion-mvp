@@ -17,6 +17,10 @@
 - Booking currently simulated.
 - Same-execution fake conversation loop is retired from live architecture.
 - AI does not score, size systems, quote, or approve finance.
+- Post-qualification control state is stored in Supabase.
+- WARM nurture runs as a separate scheduled workflow, not inside the main qualification workflow.
+- Until a real customer messaging channel is added, WARM nurture sends an internal Gmail follow-up task instead of claiming a customer message was delivered.
+- HUMAN_REVIEW transitions to HUMAN_TAKEOVER so automation stops after the salesperson handoff.
 - Owen-course alignment: never invent or attribute teachings not explicitly captured.
 
 ## Change-control rule

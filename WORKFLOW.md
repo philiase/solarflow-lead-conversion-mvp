@@ -6,7 +6,10 @@ Incoming Message
 → Find Existing Lead in Supabase
 → Lead Exists?
    - NO → Create New Lead
-   - YES → use existing lead
+   - YES → Check Automation Stop Conditions
+          → Can Qualification Continue?
+             - TRUE → use existing lead
+             - FALSE → Persist Automation Stop State → Respond Automation Stopped
 → Basic LLM Chain
 → Merge Supabase Lead + AI Update
 → Find Missing Qualification Fields
@@ -59,11 +62,11 @@ It forwards submissions to the production webhook as:
 Later: WhatsApp Business Platform.
 
 ## Terminal persistence
-Each terminal branch persists route results to Supabase before responding:
-- HOT persists BOOKED status, score, temperature, booking status, appointment date, and appointment time.
-- WARM persists NURTURE status, score, and temperature.
-- COLD persists COLD status, score, and temperature.
-- HUMAN_REVIEW persists HUMAN_REVIEW status, score, temperature, and service-area result.
+Each terminal branch persists route results and automation control fields to Supabase before responding:
+- HOT persists BOOKED status, score, temperature, booking status, appointment date/time, stops follow-up, and leaves human_takeover false.
+- WARM persists NURTURE status, score, temperature, sets follow_up_status ACTIVE, and schedules next_follow_up_at for two days later.
+- COLD persists COLD status, score, temperature, stops follow-up, and leaves human_takeover false.
+- HUMAN_REVIEW transitions to HUMAN_TAKEOVER, stops follow-up, sets human_takeover true, and records takeover metadata.
 
 ## Salesperson notifications
 HOT and HUMAN_REVIEW branches prepare a structured `sales_notification_payload`, send a Gmail notification, restore the lead context, then persist final state and respond to the webhook.
@@ -82,6 +85,32 @@ Current recipient:
 lebusotsilo6@gmail.com
 
 The Gmail nodes use the n8n credential named `Gmail account`. Attribution is disabled in the Gmail node options.
+
+## WARM nurture scheduler
+
+Separate workflow export:
+workflows/solarflow-warm-nurture-scheduler.json
+
+Current V1 sequence:
+Schedule Trigger every six hours
+→ Find Active Nurture Leads
+→ Can Automation Continue?
+→ Prepare WARM Follow-up
+→ Send WARM Follow-up Task
+→ Restore WARM Nurture Context
+→ Update Nurture Schedule
+
+The scheduler checks consent, lead status, human takeover, due date, and follow-up count before continuing. Because the project does not yet store a real customer delivery address/channel, V1 sends an internal Gmail follow-up task to the salesperson and only then updates follow_up_count, last_follow_up_at, next_follow_up_at, and follow_up_status.
+
+## Automation stop gate
+
+The main qualification workflow checks existing leads before sending them back through the LLM. Automation stops when:
+- consent_status is OPTED_OUT
+- lead_status is BOOKED, CLOSED, or HUMAN_TAKEOVER
+- human_takeover is true
+- the latest customer message contains opt-out language such as a standalone "stop", "stop messaging", "unsubscribe", "not interested anymore", or "already called me"
+
+When blocked, the workflow persists the stop state and responds with AUTOMATION_STOPPED instead of continuing qualification.
 
 ## Lightweight failure handling
 

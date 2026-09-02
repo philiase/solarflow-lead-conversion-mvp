@@ -23,13 +23,36 @@
 - booking_status text
 - appointment_date date
 - appointment_time text
-- consent_status text
+- consent_status text default UNKNOWN
+- follow_up_status text default NOT_STARTED
+- next_follow_up_at timestamptz
+- follow_up_count integer default 0
+- last_follow_up_at timestamptz
+- human_takeover boolean default false
+- assigned_to text
+- takeover_at timestamptz
+- takeover_reason text
 - created_at timestamptz
 - updated_at timestamptz
 
 ## Important distinction
 intent = what customer wants, e.g. NEW_INSTALL.
 lead_status = lifecycle state, e.g. QUALIFYING.
+
+## Consent and automation control
+consent_status values:
+- UNKNOWN
+- OPTED_IN
+- OPTED_OUT
+
+follow_up_status values:
+- NOT_STARTED
+- ACTIVE
+- STOPPED
+- COMPLETE
+
+Automation must not send follow-up messages when consent_status is OPTED_OUT,
+lead_status is BOOKED/CLOSED/HUMAN_TAKEOVER, or human_takeover is true.
 
 ## Workflow-only helper fields
 - missing_fields

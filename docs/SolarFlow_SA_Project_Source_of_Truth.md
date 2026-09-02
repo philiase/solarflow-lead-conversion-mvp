@@ -501,7 +501,7 @@ QUALIFIED
     ↓
 HOT / WARM / COLD / HUMAN_REVIEW
     ↓
-BOOKED / NURTURE / MANUAL HANDOFF / CLOSED
+BOOKED / NURTURE / HUMAN_TAKEOVER / CLOSED
 ```
 
 ## Intent vs lead status
@@ -523,6 +523,8 @@ QUALIFYING
 QUALIFIED
 NURTURE
 BOOKED
+HUMAN_TAKEOVER
+CLOSED
 ...
 ```
 
@@ -831,6 +833,14 @@ booking_status text
 appointment_date date
 appointment_time text
 consent_status text
+follow_up_status text
+next_follow_up_at timestamptz
+follow_up_count integer
+last_follow_up_at timestamptz
+human_takeover boolean
+assigned_to text
+takeover_at timestamptz
+takeover_reason text
 created_at timestamptz
 updated_at timestamptz
 ```
@@ -1470,7 +1480,7 @@ Possible channels:
 
 ## Step 9 — Add follow-up automation
 
-Especially for WARM/NURTURE leads.
+V1 adds a separate WARM nurture scheduler for leads in NURTURE. Until a real customer messaging channel is connected, the scheduler sends an internal Gmail follow-up task and updates the follow-up schedule after that task is sent.
 
 ## Step 10 — Production hardening
 
@@ -1578,7 +1588,7 @@ Finish routing tests
 
 # 45. One-Sentence Summary
 
-> SolarFlow SA is a stateful AI solar lead-conversion workflow built in n8n that receives customer messages through a webhook, uses an LLM to understand new information, stores conversation memory in Supabase, asks only missing qualification questions, applies deterministic business rules and lead scoring, routes customers into HOT/WARM/COLD/HUMAN_REVIEW outcomes, and will later add RAG, real calendar booking, WhatsApp messaging, notifications, and follow-up automation.
+> SolarFlow SA is a stateful lead-conversion workflow built in n8n that receives customer messages through a webhook, uses an LLM to understand new information, stores conversation memory in Supabase, asks only missing qualification questions, applies deterministic business rules and lead scoring, routes customers into HOT/WARM/COLD/HUMAN_REVIEW outcomes, and controls follow-up through consent, nurture, and human-takeover states.
 
 ---
 

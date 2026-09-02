@@ -239,6 +239,60 @@
                 "name": "lead_status",
                 "value": "BOOKED",
                 "type": "string"
+              },
+              {
+                "id": "37991eed-5fc5-42ca-87cb-69af2731cb1c",
+                "name": "follow_up_status",
+                "value": "STOPPED",
+                "type": "string"
+              },
+              {
+                "id": "1428cf63-0529-4c5a-9f42-292f2b134a95",
+                "name": "next_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "4dd20d7d-3f7a-4a38-9d0b-b992c5ad1c30",
+                "name": "follow_up_count",
+                "value": "={{ Number($json.follow_up_count || 0) }}",
+                "type": "number"
+              },
+              {
+                "id": "9eba1441-ea22-41c4-a02b-48d087718287",
+                "name": "last_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "52ad5613-7826-422e-afc6-e491e56cd18d",
+                "name": "human_takeover",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "f82dd910-1c67-4555-92cc-dbde27b6d605",
+                "name": "assigned_to",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "f309188e-7fc6-4686-859b-19bd2bc3c094",
+                "name": "takeover_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "68f57a46-0b92-4582-9caa-7189caa925cc",
+                "name": "takeover_reason",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "9b93f027-4a4d-4d93-9d12-c76aa30ff039",
+                "name": "consent_status",
+                "value": "={{ [\"OPTED_IN\", \"OPTED_OUT\"].includes(String($json.consent_status || \"\").toUpperCase()) ? String($json.consent_status).toUpperCase() : \"UNKNOWN\" }}",
+                "type": "string"
               }
             ]
           },
@@ -316,6 +370,60 @@
                 "name": "follow_up_days",
                 "value": 3,
                 "type": "number"
+              },
+              {
+                "id": "46c85c30-e500-4a13-a815-83dbcfaf536e",
+                "name": "follow_up_status",
+                "value": "ACTIVE",
+                "type": "string"
+              },
+              {
+                "id": "fe34888b-fa43-478f-8938-08458af8d52f",
+                "name": "follow_up_count",
+                "value": "={{ Number($json.follow_up_count || 0) }}",
+                "type": "number"
+              },
+              {
+                "id": "1eee41a6-d08d-45bd-8cd1-b846e125a612",
+                "name": "last_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "01d7a925-b894-43b3-b5af-346b5a3795b9",
+                "name": "next_follow_up_at",
+                "value": "={{ new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() }}",
+                "type": "string"
+              },
+              {
+                "id": "517f4656-40b4-4fa0-abc4-5f51e392d4a9",
+                "name": "human_takeover",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "2daf9f10-4a5c-4fa2-8ee7-df7e64bd617c",
+                "name": "assigned_to",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "835492f5-4232-422a-8f54-9ecd9a90871b",
+                "name": "takeover_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "3fd378a7-beac-425e-9137-d8ab89daa3be",
+                "name": "takeover_reason",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "ea29302e-3743-4eed-bdc5-eba84cb0214c",
+                "name": "consent_status",
+                "value": "={{ [\"OPTED_IN\", \"OPTED_OUT\"].includes(String($json.consent_status || \"\").toUpperCase()) ? String($json.consent_status).toUpperCase() : \"UNKNOWN\" }}",
+                "type": "string"
               }
             ]
           },
@@ -382,6 +490,60 @@
                 "name": "lead_score",
                 "value": "={{ $('Is Lead WARM?').item.json.lead_score }}",
                 "type": "number"
+              },
+              {
+                "id": "5add27c9-de28-4d1e-a171-880741789938",
+                "name": "follow_up_status",
+                "value": "ACTIVE",
+                "type": "string"
+              },
+              {
+                "id": "540e6714-abf0-4ee3-a1b8-a2088d49d42a",
+                "name": "follow_up_count",
+                "value": "={{ Number($json.follow_up_count || 0) }}",
+                "type": "number"
+              },
+              {
+                "id": "e8b2fd1e-b16a-4207-bb8d-a81119e2db67",
+                "name": "last_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "9a3d0571-772c-4d1b-8266-6160c31a7e18",
+                "name": "next_follow_up_at",
+                "value": "={{ new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() }}",
+                "type": "string"
+              },
+              {
+                "id": "c31e43b0-8cb6-4256-8115-89f9930ada0b",
+                "name": "human_takeover",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "b9e7f3ba-248e-4c18-98a2-653b48e5d292",
+                "name": "assigned_to",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "d0112251-b79f-49cd-a219-013420b54229",
+                "name": "takeover_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "dd858652-cf7b-4e53-a33d-55334b96eff6",
+                "name": "takeover_reason",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "d2ca1f6e-1125-4f79-8375-df658aba1c1d",
+                "name": "consent_status",
+                "value": "={{ [\"OPTED_IN\", \"OPTED_OUT\"].includes(String($json.consent_status || \"\").toUpperCase()) ? String($json.consent_status).toUpperCase() : \"UNKNOWN\" }}",
+                "type": "string"
               }
             ]
           },
@@ -418,6 +580,60 @@
                 "name": "follow_up_required",
                 "value": false,
                 "type": "boolean"
+              },
+              {
+                "id": "ee42b2df-fc93-4871-9799-159f036f8736",
+                "name": "follow_up_status",
+                "value": "STOPPED",
+                "type": "string"
+              },
+              {
+                "id": "e30bc418-4f0e-4075-8d8d-7b11ca03aa3c",
+                "name": "next_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "ae74aa14-d37d-4ca9-bcf7-a74315391875",
+                "name": "follow_up_count",
+                "value": "={{ Number($json.follow_up_count || 0) }}",
+                "type": "number"
+              },
+              {
+                "id": "c15e68b7-6015-4850-8e8e-6e4eb130c69c",
+                "name": "last_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "f31928a6-7806-4e79-bc1c-140e4a25510d",
+                "name": "human_takeover",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "49cdbb22-a7e4-4697-bf08-1c3a08382f7a",
+                "name": "assigned_to",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "8a4b99a3-40c7-4d69-aa5b-95fe094cad6b",
+                "name": "takeover_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "948243ad-3f36-4bac-90e6-db614f5819c6",
+                "name": "takeover_reason",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "f4be158e-b100-4de9-bef2-7c00a8b2ebeb",
+                "name": "consent_status",
+                "value": "={{ [\"OPTED_IN\", \"OPTED_OUT\"].includes(String($json.consent_status || \"\").toUpperCase()) ? String($json.consent_status).toUpperCase() : \"UNKNOWN\" }}",
+                "type": "string"
               }
             ]
           },
@@ -498,7 +714,7 @@
               {
                 "id": "7e21b1d0-9ef8-4330-b1eb-19a188380ba0",
                 "name": "lead_status",
-                "value": "HUMAN_REVIEW",
+                "value": "HUMAN_TAKEOVER",
                 "type": "string"
               },
               {
@@ -512,6 +728,60 @@
                 "name": "human_action_required",
                 "value": true,
                 "type": "boolean"
+              },
+              {
+                "id": "b2833a21-83ad-4136-8551-eae0d3af4bf0",
+                "name": "follow_up_status",
+                "value": "STOPPED",
+                "type": "string"
+              },
+              {
+                "id": "927de3b6-1a37-432d-a912-792f494e4030",
+                "name": "next_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "40505d94-a509-48fd-87f5-0f14d81c0da0",
+                "name": "follow_up_count",
+                "value": "={{ Number($json.follow_up_count || 0) }}",
+                "type": "number"
+              },
+              {
+                "id": "f5f7374e-7f48-4fbe-baae-54e757df1363",
+                "name": "last_follow_up_at",
+                "value": "={{ null }}",
+                "type": "string"
+              },
+              {
+                "id": "90cf0ac9-0788-41b5-b645-f4e67deb4c81",
+                "name": "human_takeover",
+                "value": true,
+                "type": "boolean"
+              },
+              {
+                "id": "5a135eb3-2950-4215-9793-c2c998f98dc7",
+                "name": "assigned_to",
+                "value": "Sales Team",
+                "type": "string"
+              },
+              {
+                "id": "52a6bfc9-ed46-42f5-b37e-dca7070d2752",
+                "name": "takeover_at",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              },
+              {
+                "id": "92c58b0f-a771-4d10-a901-5cb3541ca73d",
+                "name": "takeover_reason",
+                "value": "Requires manual review: outside automated sales path or service area.",
+                "type": "string"
+              },
+              {
+                "id": "f46dde43-e52e-4166-b7be-06aab3f99006",
+                "name": "consent_status",
+                "value": "={{ [\"OPTED_IN\", \"OPTED_OUT\"].includes(String($json.consent_status || \"\").toUpperCase()) ? String($json.consent_status).toUpperCase() : \"UNKNOWN\" }}",
+                "type": "string"
               }
             ]
           },
@@ -917,7 +1187,7 @@
         "parameters": {
           "enableResponseOutput": true,
           "respondWith": "json",
-          "responseBody": "={\n  \"status\": \"HUMAN_REVIEW\",\n  \"lead_temperature\": \"{{$json.lead_temperature}}\",\n  \"lead_score\": {{$json.lead_score}},\n  \"in_service_area\": {{$json.in_service_area}},\n  \"message\": \"Thanks. Your enquiry needs a quick manual review and someone from our team will assist you.\"\n}",
+          "responseBody": "={\n  \"status\": \"HUMAN_TAKEOVER\",\n  \"lead_temperature\": \"{{$json.lead_temperature}}\",\n  \"lead_score\": {{$json.lead_score}},\n  \"in_service_area\": {{$json.in_service_area}},\n  \"human_takeover\": {{$json.human_takeover}},\n  \"message\": \"Thanks. A member of our team will assist you directly.\"\n}",
           "options": {}
         },
         "type": "n8n-nodes-base.respondToWebhook",
@@ -1096,6 +1366,42 @@
               {
                 "fieldId": "appointment_time",
                 "fieldValue": "={{$json.appointment_time}}"
+              },
+              {
+                "fieldId": "consent_status",
+                "fieldValue": "={{$json.consent_status}}"
+              },
+              {
+                "fieldId": "follow_up_status",
+                "fieldValue": "={{$json.follow_up_status}}"
+              },
+              {
+                "fieldId": "next_follow_up_at",
+                "fieldValue": "={{$json.next_follow_up_at}}"
+              },
+              {
+                "fieldId": "follow_up_count",
+                "fieldValue": "={{$json.follow_up_count}}"
+              },
+              {
+                "fieldId": "last_follow_up_at",
+                "fieldValue": "={{$json.last_follow_up_at}}"
+              },
+              {
+                "fieldId": "human_takeover",
+                "fieldValue": "={{$json.human_takeover}}"
+              },
+              {
+                "fieldId": "assigned_to",
+                "fieldValue": "={{$json.assigned_to}}"
+              },
+              {
+                "fieldId": "takeover_at",
+                "fieldValue": "={{$json.takeover_at}}"
+              },
+              {
+                "fieldId": "takeover_reason",
+                "fieldValue": "={{$json.takeover_reason}}"
               }
             ]
           }
@@ -1152,6 +1458,42 @@
               {
                 "fieldId": "qualification_complete",
                 "fieldValue": "={{$json.qualification_complete}}"
+              },
+              {
+                "fieldId": "consent_status",
+                "fieldValue": "={{$json.consent_status}}"
+              },
+              {
+                "fieldId": "follow_up_status",
+                "fieldValue": "={{$json.follow_up_status}}"
+              },
+              {
+                "fieldId": "next_follow_up_at",
+                "fieldValue": "={{$json.next_follow_up_at}}"
+              },
+              {
+                "fieldId": "follow_up_count",
+                "fieldValue": "={{$json.follow_up_count}}"
+              },
+              {
+                "fieldId": "last_follow_up_at",
+                "fieldValue": "={{$json.last_follow_up_at}}"
+              },
+              {
+                "fieldId": "human_takeover",
+                "fieldValue": "={{$json.human_takeover}}"
+              },
+              {
+                "fieldId": "assigned_to",
+                "fieldValue": "={{$json.assigned_to}}"
+              },
+              {
+                "fieldId": "takeover_at",
+                "fieldValue": "={{$json.takeover_at}}"
+              },
+              {
+                "fieldId": "takeover_reason",
+                "fieldValue": "={{$json.takeover_reason}}"
               }
             ]
           }
@@ -1208,6 +1550,42 @@
               {
                 "fieldId": "qualification_complete",
                 "fieldValue": "={{$json.qualification_complete}}"
+              },
+              {
+                "fieldId": "consent_status",
+                "fieldValue": "={{$json.consent_status}}"
+              },
+              {
+                "fieldId": "follow_up_status",
+                "fieldValue": "={{$json.follow_up_status}}"
+              },
+              {
+                "fieldId": "next_follow_up_at",
+                "fieldValue": "={{$json.next_follow_up_at}}"
+              },
+              {
+                "fieldId": "follow_up_count",
+                "fieldValue": "={{$json.follow_up_count}}"
+              },
+              {
+                "fieldId": "last_follow_up_at",
+                "fieldValue": "={{$json.last_follow_up_at}}"
+              },
+              {
+                "fieldId": "human_takeover",
+                "fieldValue": "={{$json.human_takeover}}"
+              },
+              {
+                "fieldId": "assigned_to",
+                "fieldValue": "={{$json.assigned_to}}"
+              },
+              {
+                "fieldId": "takeover_at",
+                "fieldValue": "={{$json.takeover_at}}"
+              },
+              {
+                "fieldId": "takeover_reason",
+                "fieldValue": "={{$json.takeover_reason}}"
               }
             ]
           }
@@ -1264,6 +1642,42 @@
               {
                 "fieldId": "qualification_complete",
                 "fieldValue": "={{$json.qualification_complete}}"
+              },
+              {
+                "fieldId": "consent_status",
+                "fieldValue": "={{$json.consent_status}}"
+              },
+              {
+                "fieldId": "follow_up_status",
+                "fieldValue": "={{$json.follow_up_status}}"
+              },
+              {
+                "fieldId": "next_follow_up_at",
+                "fieldValue": "={{$json.next_follow_up_at}}"
+              },
+              {
+                "fieldId": "follow_up_count",
+                "fieldValue": "={{$json.follow_up_count}}"
+              },
+              {
+                "fieldId": "last_follow_up_at",
+                "fieldValue": "={{$json.last_follow_up_at}}"
+              },
+              {
+                "fieldId": "human_takeover",
+                "fieldValue": "={{$json.human_takeover}}"
+              },
+              {
+                "fieldId": "assigned_to",
+                "fieldValue": "={{$json.assigned_to}}"
+              },
+              {
+                "fieldId": "takeover_at",
+                "fieldValue": "={{$json.takeover_at}}"
+              },
+              {
+                "fieldId": "takeover_reason",
+                "fieldValue": "={{$json.takeover_reason}}"
               }
             ]
           }
@@ -1469,6 +1883,141 @@
         ],
         "id": "38994881-ab99-48fa-a222-22fb01c53cdf",
         "name": "Restore HUMAN REVIEW Lead Context"
+      },
+      {
+        "parameters": {
+          "jsCode": "const lead = $json;\nconst incomingMessage = String($(\"Incoming Solar Message\").item.json.body.customer_message || \"\");\nconst normalizedMessage = incomingMessage.toLowerCase();\n\nconst stopIntentPatterns = [\n  /^\\s*stop\\s*[.!?]?\\s*$/,\n  /stop messaging/,\n  /stop contacting/,\n  /do not message/,\n  /don\\'t message/,\n  /do not contact/,\n  /don\\'t contact/,\n  /unsubscribe/,\n  /opt\\s*out/,\n  /not interested anymore/,\n  /no longer interested/,\n  /someone from your team already called/,\n  /your team already called/,\n  /already called me/,\n];\n\nconst hasStopIntent = stopIntentPatterns.some((pattern) => pattern.test(normalizedMessage));\nconst isAlreadyCalled = /already called me|your team already called|someone from your team already called/.test(normalizedMessage);\nconst consentStatus = String(lead.consent_status || \"UNKNOWN\").trim().toUpperCase();\nconst leadStatus = String(lead.lead_status || \"\").trim().toUpperCase();\nconst stopReasons = [];\n\nif (hasStopIntent) {\n  stopReasons.push(\"customer_stop_intent\");\n}\n\nif (consentStatus === \"OPTED_OUT\") {\n  stopReasons.push(\"consent_opted_out\");\n}\n\nif ([\"BOOKED\", \"CLOSED\", \"HUMAN_TAKEOVER\"].includes(leadStatus)) {\n  stopReasons.push(`lead_status_${leadStatus.toLowerCase()}`);\n}\n\nif (lead.human_takeover === true) {\n  stopReasons.push(\"human_takeover\");\n}\n\nconst shouldStop = stopReasons.length > 0;\nconst nextLeadStatus = isAlreadyCalled ? \"HUMAN_TAKEOVER\" : lead.lead_status;\nconst takeoverReason = isAlreadyCalled\n  ? \"Customer said a team member already called.\"\n  : lead.takeover_reason;\n\nreturn [\n  {\n    json: {\n      ...lead,\n      automation_can_continue: !shouldStop,\n      automation_block_reasons: stopReasons,\n      consent_status: hasStopIntent && !isAlreadyCalled ? \"OPTED_OUT\" : consentStatus,\n      follow_up_status: shouldStop ? \"STOPPED\" : lead.follow_up_status,\n      next_follow_up_at: shouldStop ? null : lead.next_follow_up_at,\n      human_takeover: isAlreadyCalled ? true : lead.human_takeover === true,\n      lead_status: isAlreadyCalled ? nextLeadStatus : lead.lead_status,\n      takeover_at: isAlreadyCalled ? new Date().toISOString() : lead.takeover_at,\n      takeover_reason: takeoverReason,\n    },\n  },\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1760,
+          -1008
+        ],
+        "id": "1d551a6c-5966-4e23-9b9f-632de1631d8c",
+        "name": "Check Automation Stop Conditions"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "fa41bb79-ec5e-4a58-854b-68f05e950a51",
+                "leftValue": "={{$json.automation_can_continue}}",
+                "rightValue": "={{true}}",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -1536,
+          -1008
+        ],
+        "id": "0329b11e-8282-44a7-9f06-03289d4ace8c",
+        "name": "Can Qualification Continue?"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "leads",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{$json.id}}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "lead_status",
+                "fieldValue": "={{$json.lead_status}}"
+              },
+              {
+                "fieldId": "consent_status",
+                "fieldValue": "={{$json.consent_status}}"
+              },
+              {
+                "fieldId": "follow_up_status",
+                "fieldValue": "={{$json.follow_up_status}}"
+              },
+              {
+                "fieldId": "next_follow_up_at",
+                "fieldValue": "={{$json.next_follow_up_at}}"
+              },
+              {
+                "fieldId": "human_takeover",
+                "fieldValue": "={{$json.human_takeover}}"
+              },
+              {
+                "fieldId": "takeover_at",
+                "fieldValue": "={{$json.takeover_at}}"
+              },
+              {
+                "fieldId": "takeover_reason",
+                "fieldValue": "={{$json.takeover_reason}}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -1312,
+          -768
+        ],
+        "id": "6fca0a8b-ac4d-4db4-81a1-24d92fe28f9e",
+        "name": "Persist Automation Stop State",
+        "credentials": {
+          "supabaseApi": {
+            "id": "fUFZBc5JxtWW5xHi",
+            "name": "Supabase account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"status\": \"AUTOMATION_STOPPED\",\n  \"lead_status\": \"{{$json.lead_status}}\",\n  \"human_takeover\": {{$json.human_takeover}},\n  \"automation_block_reasons\": {{JSON.stringify($json.automation_block_reasons)}},\n  \"message\": \"Thanks. We have updated your request and automated follow-up has been stopped.\"\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          -1088,
+          -768
+        ],
+        "id": "297c08a5-f58b-4c58-a73c-f38ac85826fb",
+        "name": "Respond Automation Stopped"
+      },
+      {
+        "parameters": {
+          "jsCode": "const lead = $(\"Check Automation Stop Conditions\").item.json;\nconst persistResult = $json;\n\nreturn [\n  {\n    json: {\n      ...lead,\n      automation_stop_persist_result: persistResult,\n    },\n  },\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1200,
+          -768
+        ],
+        "id": "d1b08602-3988-4eb4-92c0-0426f2768ec2",
+        "name": "Restore Automation Stop Context"
       }
     ],
     "connections": {
@@ -1702,7 +2251,7 @@
         "main": [
           [
             {
-              "node": "Basic LLM Chain",
+              "node": "Check Automation Stop Conditions",
               "type": "main",
               "index": 0
             }
@@ -1941,6 +2490,57 @@
           [
             {
               "node": "Persist HUMAN REVIEW Result",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check Automation Stop Conditions": {
+        "main": [
+          [
+            {
+              "node": "Can Qualification Continue?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Can Qualification Continue?": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Persist Automation Stop State",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Persist Automation Stop State": {
+        "main": [
+          [
+            {
+              "node": "Restore Automation Stop Context",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Restore Automation Stop Context": {
+        "main": [
+          [
+            {
+              "node": "Respond Automation Stopped",
               "type": "main",
               "index": 0
             }

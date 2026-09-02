@@ -36,12 +36,20 @@
 - Production webhook smoke test passed for HOT, WARM, COLD, and HUMAN_REVIEW.
 - Local website-form inbound added at `http://localhost:8080`.
 - Website-form proxy smoke test passed through production n8n with a COLD lead response.
+- Supabase control fields added for consent, WARM nurture, and human takeover.
+- Main workflow now writes post-qualification control state at terminal branches.
+- Existing-lead qualification now checks automation stop conditions before calling the LLM.
+- Separate WARM nurture scheduler workflow imported locally and left inactive for controlled testing.
 
 ## Current live architecture
 Incoming Solar Message webhook or local website form
 → Find Existing Lead
 → Lead Exists?
-→ Create New Lead or use existing row
+   - NO → Create New Lead
+   - YES → Check Automation Stop Conditions
+          → Can Qualification Continue?
+             - TRUE → use existing row
+             - FALSE → Persist Automation Stop State → Respond Automation Stopped
 → Basic LLM Chain
 → Merge Supabase + AI
 → Find Missing Qualification Fields
@@ -57,11 +65,14 @@ Incoming Solar Message webhook or local website form
             → Persist terminal result
             → Respond to webhook
 
-## Current validated baseline
-- Workflow export: `workflows/solar-lead-conversion-mvp.cleaned.json`
-- Validated baseline export: `workflows/solar-lead-conversion-mvp.validated-baseline.json`
+## Current workflow files
+- Main workflow export: `workflows/solar-lead-conversion-mvp.cleaned.json`
+- WARM nurture scheduler export: `workflows/solarflow-warm-nurture-scheduler.json`
+- Supabase control-field migration: `supabase/add_post_qualification_control_fields.sql`
 - Route fixtures: `tests/route-validation-fixtures.json`
 - Route validation notes: `ROUTE_VALIDATION.md`
 
+Recent control-layer backups and helper scripts are stored under `archive/n8n-control-layer/`.
+
 ## Next milestone
-Choose whether to polish the website form for public hosting or connect WhatsApp Business next.
+Run controlled validation for the post-qualification control layer, then decide whether to connect a real customer messaging channel or continue polishing the demo package.
