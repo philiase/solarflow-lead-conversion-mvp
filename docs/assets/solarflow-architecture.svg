@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1200" viewBox="0 0 1320 1200" role="img" aria-labelledby="title description">
+  <title id="title">SolarFlow SA workflow architecture</title>
+  <desc id="description">Incoming messages pass through lead lookup, extraction, qualification, and deterministic routing. HOT leads get a simulated booking and Gmail notification. WARM leads enter nurture. COLD leads stop follow-up. Human review leads enter human takeover and notify sales. Supabase stores lead state shared with a separate inactive scheduler that creates internal Gmail follow-up tasks.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#738078"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #20342b; letter-spacing: 0; }
+      .title { font-size: 34px; font-weight: 700; }
+      .section { font-size: 20px; font-weight: 700; }
+      .label { font-size: 17px; font-weight: 700; }
+      .body { font-size: 16px; }
+      .small { font-size: 14px; fill: #53655b; }
+      .mono { font-family: Consolas, monospace; font-size: 16px; font-weight: 700; }
+      .line { fill: none; stroke: #738078; stroke-width: 2; marker-end: url(#arrow); }
+      .rail { fill: none; stroke: #738078; stroke-width: 2; }
+      .box { fill: #ffffff; stroke: #c6d2ca; stroke-width: 1.5; }
+    </style>
+  </defs>
+  <rect width="1320" height="1200" fill="#f8faf9"/>
+  <path d="M0 0H1320V8H0Z" fill="#25754b"/>
+  <text x="48" y="66" class="title">SolarFlow SA</text>
+  <text x="48" y="99" class="body">Lead qualification and follow-up architecture</text>
+  <text x="1272" y="64" class="small" text-anchor="end">n8n / Supabase / OpenRouter / Gmail</text>
+  <text x="1272" y="96" class="small" text-anchor="end">Based on the repository workflow exports</text>
+  <path d="M48 124H1272" stroke="#d8e1db"/>
+
+  <text x="48" y="164" class="section">01 / Incoming message</text>
+  <text x="1272" y="164" class="small" text-anchor="end">One message starts one execution</text>
+  <rect x="48" y="190" width="270" height="152" rx="6" class="box"/>
+  <text x="68" y="223" class="label">Receive enquiry</text>
+  <text x="68" y="255" class="body">Website form + proxy :8080</text>
+  <text x="68" y="281" class="body">or direct webhook request</text>
+  <text x="68" y="317" class="small">Incoming Solar Message :5678</text>
+  <path d="M318 266H360" class="line"/>
+  <rect x="366" y="190" width="270" height="152" rx="6" class="box"/>
+  <text x="386" y="223" class="label">Load lead memory</text>
+  <text x="386" y="255" class="body">Find by channel_user_id</text>
+  <text x="386" y="281" class="body">New: create lead</text>
+  <text x="386" y="317" class="small">Existing: check automation gate</text>
+  <path d="M636 266H678" class="line"/>
+  <rect x="684" y="190" width="270" height="152" rx="6" fill="#e9f2fc" stroke="#8eafcf"/>
+  <text x="704" y="223" class="label">Extract and merge</text>
+  <text x="704" y="255" class="body">OpenRouter extracts fields</text>
+  <text x="704" y="281" class="body">Merge with stored values</text>
+  <text x="704" y="317" class="small">Find missing fields; save memory</text>
+  <path d="M954 266H996" class="line"/>
+  <rect x="1002" y="190" width="270" height="152" rx="6" class="box"/>
+  <text x="1022" y="223" class="label">Qualification complete?</text>
+  <text x="1022" y="255" class="body">No: return next question</text>
+  <text x="1022" y="281" class="body">Yes: mark qualified</text>
+  <text x="1022" y="317" class="small">Apply rules, validate, score</text>
+
+  <path d="M501 342V361H68" class="rail"/>
+  <rect x="48" y="378" width="906" height="59" rx="6" fill="#fcecee" stroke="#dba2aa"/>
+  <path d="M68 361V372" class="line"/>
+  <text x="68" y="403" class="label">Existing lead blocked? Save stop state and return AUTOMATION_STOPPED</text>
+  <text x="68" y="425" class="small">Opt-out / booked / closed / human takeover / stop or prior-human-contact language</text>
+  <path d="M1137 342V502" class="line"/>
+  <text x="1151" y="403" class="small">Complete</text>
+
+  <text x="48" y="480" class="section">02 / Route and persist</text>
+  <path d="M183 520V502H1137V520 M501 502V520 M819 502V520" class="rail"/>
+  <rect x="48" y="520" width="270" height="206" rx="6" fill="#fcecee" stroke="#dba2aa"/>
+  <text x="68" y="554" class="label">HOT</text>
+  <text x="68" y="588" class="body">Simulate booking</text>
+  <text x="68" y="614" class="body">Send sales Gmail notification</text>
+  <text x="68" y="640" class="body">Stop follow-up</text>
+  <text x="68" y="697" class="mono">BOOKED</text>
+  <rect x="366" y="520" width="270" height="206" rx="6" fill="#fff4d7" stroke="#d1b467"/>
+  <text x="386" y="554" class="label">WARM</text>
+  <text x="386" y="588" class="body">Activate nurture</text>
+  <text x="386" y="614" class="body">First task due in 2 days</text>
+  <text x="386" y="640" class="body">Save follow-up state</text>
+  <text x="386" y="697" class="mono">NURTURE</text>
+  <rect x="684" y="520" width="270" height="206" rx="6" fill="#e9f2fc" stroke="#8eafcf"/>
+  <text x="704" y="554" class="label">COLD</text>
+  <text x="704" y="588" class="body">Record qualification result</text>
+  <text x="704" y="614" class="body">Stop follow-up</text>
+  <text x="704" y="697" class="mono">COLD</text>
+  <rect x="1002" y="520" width="270" height="206" rx="6" fill="#eeedf7" stroke="#ada0c6"/>
+  <text x="1022" y="554" class="label">HUMAN_REVIEW</text>
+  <text x="1022" y="588" class="body">Set human takeover</text>
+  <text x="1022" y="614" class="body">Send sales Gmail notification</text>
+  <text x="1022" y="640" class="body">Stop automation</text>
+  <text x="1022" y="697" class="mono">HUMAN_TAKEOVER</text>
+  <path d="M183 726V758" class="line"/>
+  <path d="M501 726V758" class="line"/>
+  <path d="M819 726V758" class="line"/>
+  <path d="M1137 726V758" class="line"/>
+  <rect x="48" y="766" width="1224" height="86" rx="6" fill="#e7f4ed" stroke="#79ac8e"/>
+  <text x="68" y="801" class="section">Supabase / leads</text>
+  <text x="322" y="800" class="body">Qualification fields / score / status / consent / follow-up schedule / takeover metadata</text>
+  <text x="68" y="830" class="small">Each terminal route saves its result before the webhook response. The scheduler reads and updates this same table.</text>
+
+  <text x="48" y="903" class="section">03 / Separate WARM scheduler</text>
+  <text x="1272" y="903" class="small" text-anchor="end">Inactive in the export / every 6 hours when enabled</text>
+  <path d="M183 852V866H30V926H183V937" class="line"/>
+  <rect x="48" y="944" width="270" height="138" rx="6" class="box"/>
+  <text x="68" y="977" class="label">Read nurture leads</text>
+  <text x="68" y="1009" class="body">NURTURE + ACTIVE</text>
+  <text x="68" y="1043" class="small">Up to 50 records per query</text>
+  <path d="M318 1013H360" class="line"/>
+  <rect x="366" y="944" width="270" height="138" rx="6" fill="#fff4d7" stroke="#d1b467"/>
+  <text x="386" y="977" class="label">Check eligibility</text>
+  <text x="386" y="1009" class="body">Due / no stop / attempts &lt; 3</text>
+  <text x="386" y="1043" class="small">Blocked items leave the run</text>
+  <path d="M636 1013H678" class="line"/>
+  <rect x="684" y="944" width="270" height="138" rx="6" fill="#e9f2fc" stroke="#8eafcf"/>
+  <text x="704" y="977" class="label">Send internal Gmail task</text>
+  <text x="704" y="1009" class="body">Suggested follow-up message</text>
+  <text x="704" y="1043" class="small">Customer delivery not connected</text>
+  <path d="M954 1013H996" class="line"/>
+  <rect x="1002" y="944" width="270" height="138" rx="6" class="box"/>
+  <text x="1022" y="977" class="label">Update schedule</text>
+  <text x="1022" y="1009" class="body">Count + 1; save timestamps</text>
+  <text x="1022" y="1043" class="small">+5 days / +7 days / COMPLETE</text>
+  <path d="M1137 944V926H1290V866H1137V859" class="line"/>
+  <text x="1182" y="883" class="small">Save</text>
+  <path d="M48 1113H1272" stroke="#d8e1db"/>
+  <text x="48" y="1143" class="small">Booking is simulated. The model extracts fields; JavaScript owns rules and scoring.</text>
+  <text x="48" y="1168" class="small">Arrows show grouped data flow. Detailed branches, stop behavior, and delivery limits are documented in ARCHITECTURE.md.</text>
+</svg>

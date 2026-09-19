@@ -1,5 +1,7 @@
 # Workflow
 
+See [Architecture](docs/ARCHITECTURE.md) for the visual overview and detailed flow diagrams based on the workflow exports.
+
 ## Main Workflow
 
 ```text

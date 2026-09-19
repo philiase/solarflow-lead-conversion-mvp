@@ -4,6 +4,12 @@ SolarFlow SA is a local lead-conversion MVP for South African residential solar 
 
 The project is built around a simple split: use the language model for extraction, and use code for business rules. The model reads the customer message and returns structured fields. JavaScript nodes handle validation, scoring, routing, and state changes.
 
+## Architecture
+
+![SolarFlow architecture: inbound qualification, lead routing, shared Supabase state, and the separate WARM scheduler](docs/assets/solarflow-architecture.svg)
+
+The workflows share lead state through Supabase. The main workflow handles incoming messages; the separate scheduler reads due WARM leads and creates internal follow-up tasks. See [Architecture](docs/ARCHITECTURE.md) for the detailed flow diagrams and current implementation limits.
+
 ## Features
 
 - Inbound lead handling through an n8n webhook.
