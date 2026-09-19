@@ -152,5 +152,3 @@ Supabase connects the workflows through stored data, not a direct workflow call.
 - Gmail errors do not block terminal persistence in the main workflow. Extraction or Supabase failures can stop an execution.
 - Direct customer nurture delivery, real calendar booking, and an operator release interface are not shown because they are not implemented in these exports.
 - The `Qualification Complete?` false branch is shown as it exists today; its later review remains separate work.
-
-When workflow connections or scheduling rules change, update this page and the [overview SVG](assets/solarflow-architecture.svg) alongside the exports.
