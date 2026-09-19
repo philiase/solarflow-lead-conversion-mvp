@@ -1,78 +1,55 @@
 # Current Status
 
 ## Completed
-- n8n Community Edition running locally in Docker.
-- Base qualification workflow built.
-- Deterministic lead scoring built.
-- HOT/WARM/COLD/HUMAN_REVIEW routing designed.
-- Simulated booking built.
-- Salesperson summary built.
-- OpenRouter connected.
-- Token-limit issue fixed by lowering max output tokens.
-- AI extraction working.
-- JSON parsing / code-fence cleanup implemented.
-- Missing-field detection working.
-- Next-question logic tested.
-- In-memory conversation merge proven.
-- Supabase account and leads table created.
-- channel_user_id persistent identity implemented.
-- Find Existing Lead uses Supabase Get Many.
-- New lead creation works.
-- Persistent memory works across separate executions.
-- Merge preserves previous stored values.
-- intent vs lead_status mapping issue fixed.
-- Mark Lead Qualified step added.
-- Webhook trigger is now the live MVP input path.
-- HOT, WARM, COLD, and HUMAN_REVIEW routes validated through webhook + Supabase.
-- Terminal route results are persisted back to Supabase before webhook response.
-- Obsolete mock and experimental nodes removed from the cleaned workflow export.
-- HOT and HUMAN_REVIEW branches prepare structured salesperson notification payloads.
-- Gmail notifications are connected for HOT and HUMAN_REVIEW leads.
-- HOT Gmail notification delivery validated.
-- HUMAN_REVIEW Gmail notification delivery validated.
-- Gmail sends now retry once, continue on failure, and record `sales_notification_status` / `sales_notification_error` before terminal persistence.
-- OpenRouter and Supabase external nodes now retry once before surfacing a hard workflow failure in n8n.
-- Production workflow is active in n8n for `/webhook/solar-lead-message`.
-- Production webhook smoke test passed for HOT, WARM, COLD, and HUMAN_REVIEW.
-- Local website-form inbound added at `http://localhost:8080`.
-- Website-form proxy smoke test passed through production n8n with a COLD lead response.
-- Supabase control fields added for consent, WARM nurture, and human takeover.
-- Main workflow now writes post-qualification control state at terminal branches.
-- Existing-lead qualification now checks automation stop conditions before calling the LLM.
-- Separate WARM nurture scheduler workflow imported locally and left inactive for controlled testing.
 
-## Current live architecture
-Incoming Solar Message webhook or local website form
-→ Find Existing Lead
-→ Lead Exists?
-   - NO → Create New Lead
-   - YES → Check Automation Stop Conditions
-          → Can Qualification Continue?
-             - TRUE → use existing row
-             - FALSE → Persist Automation Stop State → Respond Automation Stopped
-→ Basic LLM Chain
-→ Merge Supabase + AI
-→ Find Missing Qualification Fields
-→ Update Lead Memory
-→ Qualification Complete?
-   - FALSE → More Questions → END
-   - TRUE → Mark Lead Qualified
-            → Update Qualified Status
-            → Apply Business Rules
-            → Validate
-            → Score
-            → Route
-            → Persist terminal result
-            → Respond to webhook
+- n8n Community Edition is running locally in Docker.
+- The main qualification workflow is built around the production webhook.
+- Supabase stores lead memory across separate customer messages.
+- The workflow can create new leads, find existing leads, merge new information, and preserve existing values when the model returns `null`.
+- Missing-field detection and next-question generation are working.
+- Lead scoring, service-area checks, and terminal routing are handled in JavaScript.
+- HOT, WARM, COLD, and HUMAN_REVIEW routes have been tested through the webhook and Supabase.
+- HOT and HUMAN_REVIEW branches send structured Gmail notifications.
+- Gmail failures are recorded without blocking final lead persistence.
+- OpenRouter and Supabase nodes retry once before failing the workflow.
+- The local website form forwards submissions into the production webhook.
+- Supabase control fields have been added for consent, nurture follow-up, and human takeover.
+- Existing leads pass through an automation-stop gate before further qualification.
+- A separate WARM nurture scheduler workflow has been imported locally and left inactive for controlled testing.
 
-## Current workflow files
-- Main workflow export: `workflows/solar-lead-conversion-mvp.cleaned.json`
-- WARM nurture scheduler export: `workflows/solarflow-warm-nurture-scheduler.json`
-- Supabase control-field migration: `supabase/add_post_qualification_control_fields.sql`
-- Route fixtures: `tests/route-validation-fixtures.json`
-- Route validation notes: `ROUTE_VALIDATION.md`
+## Current Architecture
 
-Recent control-layer backups and helper scripts are stored under `archive/n8n-control-layer/`.
+```text
+Incoming Solar Message
+Find Existing Lead
+Lead Exists?
+  NO  -> Create New Lead
+  YES -> Check Automation Stop Conditions
+          Can Qualification Continue?
+            YES -> continue with existing lead
+            NO  -> persist stop state and respond AUTOMATION_STOPPED
+Basic LLM Chain
+Merge Supabase Lead + AI Update
+Find Missing Qualification Fields
+Update Lead Memory
+Qualification Complete?
+  NO  -> ask next question and end
+  YES -> mark qualified, score, route, persist terminal state, respond
+```
 
-## Next milestone
-Run controlled validation for the post-qualification control layer, then decide whether to connect a real customer messaging channel or continue polishing the demo package.
+## Current Files
+
+- `workflows/solar-lead-conversion-mvp.cleaned.json` - main workflow export.
+- `workflows/solarflow-warm-nurture-scheduler.json` - WARM nurture scheduler export.
+- `supabase/add_post_qualification_control_fields.sql` - database migration for the control-layer fields.
+- `tests/route-validation-fixtures.json` - route test fixtures.
+- `ROUTE_VALIDATION.md` - validation notes and test history.
+- `archive/n8n-control-layer/` - recent workflow backups and helper scripts.
+
+## Local-Only Work
+
+The website-form logging changes and temporary scheduler test helpers are local development artifacts unless they are explicitly prepared for release.
+
+## Next Work
+
+The next controlled validation step is the WARM nurture scheduler. It should be tested against one known safe due lead before being activated broadly.

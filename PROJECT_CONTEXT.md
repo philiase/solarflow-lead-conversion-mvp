@@ -1,49 +1,58 @@
 # Project Context
 
-## Project
-SolarFlow SA — AI Lead Conversion MVP
+## Overview
 
-## Country and niche
-- South Africa
-- Residential solar installers
-- Initial simulated service area: Gauteng
-- Areas: Midrand, Johannesburg, Pretoria, Centurion
+SolarFlow SA is a lead-conversion MVP for South African residential solar installers. It is designed to receive inbound enquiries, qualify prospects, store lead memory, and route each lead to the next practical action.
 
-## Business objective
-Build an inbound lead-conversion system for a small-to-medium South African residential solar installer.
+The project is not a general chatbot or a cold-outreach tool. It focuses on inbound qualification for residential solar enquiries.
 
-## Core journey
-Inbound lead → conversation → structured extraction → qualification → persistent memory → deterministic business rules → lead scoring → routing → consultation/booking, nurture, or human takeover.
+## Market
 
-## Product definition
-This is an AI Lead Conversion Agent, not a generic chatbot and not a cold-outreach scraper.
+- Country: South Africa
+- Niche: residential solar installers
+- Initial service area: Gauteng
+- Current test areas: Midrand, Johannesburg, Pretoria, and Centurion
 
-## Current MVP includes
-- inbound customer message
-- AI extraction
-- persistent lead memory
-- missing-field detection
-- next-question generation
-- deterministic service-area logic
-- deterministic lead scoring
-- HOT/WARM/COLD/HUMAN_REVIEW routing
-- simulated booking
-- structured salesperson summary
-- Gmail notifications for HOT and HUMAN_REVIEW/HUMAN_TAKEOVER cases
-- consent and automation stop state
-- WARM nurture scheduling workflow
-- local website form with protected proxy and diagnostic logs
+## Core Journey
 
-## Not included yet
-- production WhatsApp integration
-- Google Calendar integration
-- direct customer follow-up delivery
-- quotation engine
-- solar system sizing
-- finance approval
-- payments
-- custom dashboard
-- voice agent
-- multi-niche support
-- predictive ML scoring
-- complex RAG
+```text
+Inbound enquiry
+Extract structured information
+Store or update lead memory
+Ask for missing qualification details
+Apply business rules
+Score the lead
+Route to booking, nurture, cold, or human takeover
+```
+
+## Current MVP Scope
+
+- Inbound customer message handling.
+- Model-based information extraction.
+- Persistent lead memory in Supabase.
+- Missing-field detection.
+- Next-question generation.
+- Deterministic service-area logic.
+- Deterministic lead scoring.
+- HOT, WARM, COLD, and HUMAN_REVIEW routing.
+- Simulated booking.
+- Structured salesperson summaries.
+- Gmail notifications for HOT and HUMAN_REVIEW cases.
+- Consent and automation-stop state.
+- WARM nurture scheduling workflow.
+- Local website form with access-code protection and diagnostic logs.
+
+## Not Included Yet
+
+- Production WhatsApp integration.
+- Google Calendar booking.
+- Direct customer follow-up delivery.
+- Quotation engine.
+- Solar system sizing.
+- Finance approval.
+- Payments.
+- Custom dashboard.
+- Voice agent.
+- Multi-niche support.
+- Predictive scoring.
+- RAG-based knowledge answers.

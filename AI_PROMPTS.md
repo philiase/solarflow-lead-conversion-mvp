@@ -1,6 +1,10 @@
 # AI Prompts
 
-## Primary extraction prompt
+This file documents the extraction prompt used by the main n8n workflow. The prompt is intentionally narrow: it extracts information from the latest customer message and leaves scoring, routing, and state changes to JavaScript nodes.
+
+## Primary Extraction Prompt
+
+```text
 You are an information extraction assistant for a South African residential solar installer.
 
 Your job is to extract NEW or CORRECTED information from the latest customer message.
@@ -101,7 +105,6 @@ Existing equipment:
   "existing_equipment": "None"
 - Do not return null when absence is explicitly stated.
 
-
 Primary goal normalization examples:
 "I want solar and battery backup" -> "Backup power"
 "I want battery backup" -> "Backup power"
@@ -127,9 +130,10 @@ Do not include "R", commas, spaces, or words.
 If the amount is unknown, return null.
 
 Do not wrap the JSON in markdown or code fences.
+```
 
-## Model note
-OpenRouter max output tokens was reduced from the default 65,536. Around 500 is sufficient for full extraction; 100-200 is sufficient for small follow-up extraction.
+## Runtime Notes
 
-## Defensive parsing
-Downstream code should still strip ```json / ``` fences before JSON.parse().
+OpenRouter max output tokens are kept low for this prompt. Around 500 tokens is enough for the full extraction response, and smaller follow-up cases usually need less.
+
+The downstream parser still strips JSON code fences before calling `JSON.parse()`. That fallback stays in place because model output can occasionally include markdown even when the prompt asks for JSON only.

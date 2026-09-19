@@ -1,13 +1,11 @@
 # n8n Control-Layer Archive
 
-This folder keeps recent n8n control-layer backups and helper scripts out of the main project surface.
+This folder keeps recent workflow backups and helper scripts from the post-qualification control-layer work.
 
 ## Contents
 
-- `backups/` - live n8n exports captured before and after the control-layer import.
-- `patch-scripts/` - recent local scripts used to apply the control-layer workflow changes and generate the WARM nurture scheduler.
-
-Older root-level `n8n-workflows-*` exports and obsolete `patch_n8n_*` scripts were removed after the current workflow and recent live backups were confirmed.
+- `backups/` - n8n exports captured before and after the control-layer import.
+- `patch-scripts/` - local scripts used to apply workflow changes and generate the WARM nurture scheduler export.
 
 The active workflow exports live in:
 
@@ -17,3 +15,5 @@ The active workflow exports live in:
 The current Supabase migration lives in:
 
 - `supabase/add_post_qualification_control_fields.sql`
+
+Older root-level workflow exports and obsolete patch scripts were removed after the current workflow and recent live backups were confirmed.

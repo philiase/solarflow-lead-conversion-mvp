@@ -1,75 +1,82 @@
 # Route Validation
 
-Validated on 2026-08-31 against the local n8n Docker workflow `Solar Lead Conversion MVP`.
+This file records the route tests used to verify the local n8n workflow and Supabase state changes.
 
-## Historical Result
+## Test Environment
 
-Before the post-qualification control layer was added, all four terminal routes passed through the real webhook and Supabase architecture:
+Local n8n workflow:
 
-- HOT -> BOOKED, score 90
-- WARM -> NURTURE, score 45
-- COLD -> COLD, score 30
-- HUMAN_REVIEW -> HUMAN_REVIEW, score 70, outside service area
+```text
+Solar Lead Conversion MVP
+```
 
-## Test Mode
+Production webhook:
 
-The current test URL is:
+```text
+http://localhost:5678/webhook/solar-lead-message
+```
 
-```powershell
+Test webhook:
+
+```text
 http://localhost:5678/webhook-test/solar-lead-message
 ```
 
-In n8n test mode, click **Execute workflow** before each request. The listener usually accepts one request and then turns off again.
+In n8n test mode, click `Execute workflow` before each request. The test listener normally accepts one request and then turns off again.
 
 ## Fixtures
 
-Use `tests/route-validation-fixtures.json` for the payloads and expected high-level responses. Use a fresh `channel_user_id` when rerunning a case to avoid existing Supabase memory affecting the result.
+Use:
+
+```text
+tests/route-validation-fixtures.json
+```
+
+Use a fresh `channel_user_id` when rerunning a case so old Supabase memory does not affect the result.
+
+## Historical Route Results
+
+Before the post-qualification control layer was added, all four terminal routes passed through the real webhook and Supabase architecture:
+
+- HOT -> `BOOKED`, score 90
+- WARM -> `NURTURE`, score 45
+- COLD -> `COLD`, score 30
+- HUMAN_REVIEW -> `HUMAN_REVIEW`, score 70, outside service area
+
+## Production Smoke Test
+
+Validated on 2026-08-31 against the production webhook after the notification payload type was corrected:
+
+- HOT -> `BOOKED`, score 90 (`prod2_hot_20260831195409`)
+- WARM -> `NURTURE`, score 45 (`prod2_warm_20260831195409`)
+- COLD -> `COLD`, score 30 (`prod2_cold_20260831195409`)
+- HUMAN_REVIEW -> `HUMAN_REVIEW`, score 70, outside service area (`prod2_human_20260831195409`)
+
+These results were captured before HUMAN_REVIEW was changed to transition into `HUMAN_TAKEOVER`.
 
 ## Validated Fixes
 
 - Qualified leads are marked `QUALIFIED` and persisted before scoring.
 - Terminal branches persist score, temperature, status, and booking details where relevant.
-- HUMAN_REVIEW routing now sends true matches to the human-review branch.
+- HUMAN_REVIEW routing sends true matches to the human-review branch.
 - Terminal Set nodes preserve incoming fields before responding.
-- Primary-goal extraction has prompt examples and deterministic fallbacks for backup, bill reduction, and price-research language.
-- Currency-formatted electricity spend has a deterministic numeric fallback before Supabase update.
+- Primary-goal extraction handles backup, bill reduction, and price-research language.
+- Currency-formatted electricity spend is normalized before Supabase update.
 - HOT and HUMAN_REVIEW branches prepare salesperson notification payloads before final persistence.
-- HOT and HUMAN_REVIEW branches now send Gmail notifications before final persistence and webhook response.
-- HOT Gmail delivery was confirmed from the inbox after the `test_hot_gmail_003` run.
-- HUMAN_REVIEW Gmail delivery was confirmed after the `test_human_gmail_001` run.
-- Gmail send nodes now retry once, continue on failure, and restore the original lead context with `sales_notification_status` set to `SENT` or `FAILED`.
-- Supabase and OpenRouter external nodes now retry once before surfacing an n8n execution failure.
+- HOT and HUMAN_REVIEW Gmail notifications were delivered and confirmed.
+- Gmail send nodes retry once, continue on failure, and restore the original lead context with `sales_notification_status` set to `SENT` or `FAILED`.
+- Supabase and OpenRouter nodes retry once before surfacing an n8n execution failure.
 
-## Notification Status
-
-- HOT Gmail delivery validated.
-- HUMAN_REVIEW Gmail delivery validated.
-
-## Historical Production Smoke Test
-
-Validated on 2026-08-31 against:
-
-```powershell
-http://localhost:5678/webhook/solar-lead-message
-```
-
-All four production webhook cases passed after the notification payload type was corrected in the active workflow. These results were captured before HUMAN_REVIEW was changed to transition into HUMAN_TAKEOVER:
-
-- HOT -> BOOKED, score 90 (`prod2_hot_20260831195409`)
-- WARM -> NURTURE, score 45 (`prod2_warm_20260831195409`)
-- COLD -> COLD, score 30 (`prod2_cold_20260831195409`)
-- HUMAN_REVIEW -> HUMAN_REVIEW, score 70, outside service area (`prod2_human_20260831195409`)
-
-## Pending Control-Layer Validation
-
-The post-qualification control layer was added after the production smoke test above.
+## Control-Layer Validation
 
 Validated on 2026-09-03:
+
 - HOT fresh lead returned `BOOKED`, `HOT`, score 90 (`test_control_hot_20260903014208`).
 - WARM fresh lead returned `NURTURE`, `WARM`, score 50 (`test_control_warm_low_20260903014244`).
-- HUMAN_REVIEW fresh lead returned `HUMAN_TAKEOVER`, `HUMAN_REVIEW`, score 70, `human_takeover=true` (`test_control_human_20260903014208`).
+- HUMAN_REVIEW fresh lead returned `HUMAN_TAKEOVER`, `HUMAN_REVIEW`, score 70, with `human_takeover=true` (`test_control_human_20260903014208`).
 - Existing WARM lead with stop language returned `AUTOMATION_STOPPED` with `customer_stop_intent` and `consent_opted_out`.
 - Existing BOOKED lead returned `AUTOMATION_STOPPED` with `lead_status_booked`.
-- WARM nurture scheduler JSON validated and its gate/update code passed an isolated local simulation: due lead continued, opt-out/future/max-attempt leads were blocked, and the due lead advanced to follow-up attempt 1.
+- The WARM nurture scheduler JSON validated successfully.
+- Scheduler gate and update code passed isolated local simulation for due, opt-out, future, and max-attempt leads.
 
-The scheduler remains inactive until manual live execution is intentionally approved against a known safe due lead.
+The scheduler remains inactive until manual live execution is approved against a known safe due lead.

@@ -1,8 +1,8 @@
 # SolarFlow Website Form
 
-This is a local website-form inbound for SolarFlow.
+This folder contains the local browser form used to test inbound website leads.
 
-It serves a browser form at:
+The form runs at:
 
 ```text
 http://localhost:8080
@@ -14,7 +14,7 @@ The server forwards submissions to the active n8n production webhook:
 http://localhost:5678/webhook/solar-lead-message
 ```
 
-## Run
+## Run Locally
 
 ```powershell
 node .\website-form\server.js
@@ -29,7 +29,7 @@ $env:SOLARFLOW_FORM_ACCESS_CODE = "change-this-before-sharing"
 node .\website-form\server.js
 ```
 
-The form builds the `customer_message` text expected by the existing n8n workflow and uses `website_<contact>` as the `channel_user_id`.
+The form builds the `customer_message` expected by the n8n workflow and uses `website_<contact>` as the `channel_user_id`.
 
 Set `SOLARFLOW_FORM_ACCESS_CODE` before sharing the form publicly. If it is not set, access-code protection is disabled.
 
@@ -41,4 +41,4 @@ Website-form events and errors are written locally to:
 website-form/logs/events.jsonl
 ```
 
-The log records malformed JSON, rejected access codes, client/browser errors, n8n webhook responses, and upstream webhook errors. Access codes are redacted before logging.
+The log captures malformed JSON, rejected access codes, browser errors, n8n webhook responses, and upstream webhook failures. Access codes are redacted before logging.

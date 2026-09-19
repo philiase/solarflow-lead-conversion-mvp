@@ -1,42 +1,44 @@
 # SolarFlow SA Lead Conversion MVP
 
-SolarFlow SA is a local lead-conversion MVP for South African residential solar installers. It receives inbound enquiries, extracts structured lead details, stores lead memory in Supabase, applies deterministic qualification and scoring rules, routes leads into sales outcomes, sends salesperson notifications for high-priority cases, and controls follow-up automation after qualification.
+SolarFlow SA is a local lead-conversion MVP for South African residential solar installers. It receives inbound enquiries, stores lead memory in Supabase, extracts structured details from customer messages, applies deterministic qualification rules, and routes each lead to the correct next step.
 
-## What It Does
+The project is built around a simple split: use the language model for extraction, and use code for business rules. The model reads the customer message and returns structured fields. JavaScript nodes handle validation, scoring, routing, and state changes.
 
-- Receives inbound lead messages through an n8n production webhook.
-- Preserves lead memory across multiple messages using Supabase.
-- Extracts customer details from natural-language messages.
-- Checks missing qualification fields.
-- Applies service-area and scoring rules in deterministic JavaScript.
-- Routes leads as HOT, WARM, COLD, or HUMAN_REVIEW.
-- Simulates consultation booking for HOT leads.
-- Sends Gmail notifications for HOT and HUMAN_REVIEW leads.
-- Tracks consent, nurture follow-up state, and human takeover state.
-- Includes a separate WARM nurture scheduler workflow.
-- Provides a local website form that forwards submissions into the workflow.
+## Features
+
+- Inbound lead handling through an n8n webhook.
+- Persistent lead records in Supabase using `channel_user_id`.
+- Structured extraction from natural-language customer messages.
+- Missing-field detection and next-question generation.
+- Deterministic service-area validation and lead scoring.
+- HOT, WARM, COLD, and HUMAN_REVIEW routing.
+- Simulated booking for HOT leads.
+- Gmail notifications for HOT and HUMAN_REVIEW leads.
+- Consent, follow-up, and human-takeover state.
+- Separate WARM nurture scheduler workflow.
+- Local website form that forwards submissions into the production webhook.
 
 ## Current Status
 
-The production workflow is active locally and has passed smoke tests for:
+The main workflow is active locally in n8n and has passed smoke tests for the main routes:
 
-- HOT -> BOOKED, score 90
-- WARM -> NURTURE, score 45
-- COLD -> COLD, score 30
-- HUMAN_REVIEW -> HUMAN_TAKEOVER, outside automated sales path
+- HOT -> `BOOKED`, score 90
+- WARM -> `NURTURE`
+- COLD -> `COLD`
+- HUMAN_REVIEW -> `HUMAN_TAKEOVER`
 
-The local website-form inbound has also passed end-to-end smoke tests through the production n8n webhook. The post-qualification control layer has been imported into local n8n and is ready for controlled validation.
+The WARM nurture scheduler has been imported locally but is intentionally inactive until controlled live testing is approved.
 
-## Project Layout
+## Project Structure
 
 - `workflows/solar-lead-conversion-mvp.cleaned.json` - current main n8n workflow export.
-- `workflows/solarflow-warm-nurture-scheduler.json` - separate scheduled WARM nurture workflow export.
-- `supabase/add_post_qualification_control_fields.sql` - Supabase migration for consent, nurture, and human takeover fields.
+- `workflows/solarflow-warm-nurture-scheduler.json` - scheduled WARM nurture workflow export.
+- `supabase/add_post_qualification_control_fields.sql` - Supabase migration for consent, nurture, and human-takeover fields.
 - `website-form/` - local browser form and proxy server for inbound lead capture.
 - `tests/route-validation-fixtures.json` - route test payloads and expected outcomes.
-- `archive/n8n-control-layer/` - recent n8n control-layer backups and helper scripts.
+- `archive/n8n-control-layer/` - recent workflow backups and helper scripts from the control-layer work.
 - `docs/SolarFlow_SA_Project_Source_of_Truth.md` - detailed project reference.
-- `BUSINESS_RULES.md`, `DATA_SCHEMA.md`, `WORKFLOW.md`, `AI_PROMPTS.md`, `DECISIONS.md`, `CURRENT_STATUS.md`, and `ROUTE_VALIDATION.md` - project rules, workflow notes, and validation history.
+- `BUSINESS_RULES.md`, `DATA_SCHEMA.md`, `WORKFLOW.md`, `AI_PROMPTS.md`, `DECISIONS.md`, `CURRENT_STATUS.md`, and `ROUTE_VALIDATION.md` - supporting project documentation.
 
 ## Local Services
 
@@ -58,7 +60,7 @@ Test webhook:
 http://localhost:5678/webhook-test/solar-lead-message
 ```
 
-In test mode, click **Execute workflow** in n8n before sending a request.
+In n8n test mode, click `Execute workflow` before sending a request to the test webhook. The production webhook is available when the workflow is active.
 
 ## Website Form
 
@@ -75,7 +77,7 @@ Open:
 http://localhost:8080
 ```
 
-The form forwards valid submissions to the production webhook and uses `website_<contact>` as the lead `channel_user_id`.
+The form submits to the production webhook and uses `website_<contact>` as the lead `channel_user_id`.
 
 Website-form logs are written to:
 
@@ -93,12 +95,12 @@ To expose the local website form temporarily:
 npx localtunnel --port 8080
 ```
 
-The command prints a public URL. The link only works while the local form server, n8n, and the tunnel process are running.
+The public link only works while the local form server, n8n, and the tunnel process are running.
 
 ## Notes
 
 - Gmail notifications use the n8n credential named `Gmail account`.
-- Gmail sends retry once and continue to final lead persistence even if notification delivery fails.
+- Gmail sends retry once and do not block terminal lead persistence.
 - OpenRouter and Supabase nodes retry once before surfacing a workflow failure.
-- The current booking step is simulated. Google Calendar integration is a later milestone.
-- The WARM nurture scheduler is imported locally but should remain inactive until controlled testing is complete.
+- Booking is currently simulated. Google Calendar integration is a later milestone.
+- The project does not yet send direct customer follow-up messages for WARM nurture. The current scheduler sends an internal Gmail task for review.
